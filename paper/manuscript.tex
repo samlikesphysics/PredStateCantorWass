@@ -108,19 +108,19 @@ Data Mining}{August 2022}{Washington, DC, USA}
 %%
 %% The abstract is a short summary of the work to be presented in the % article.
 \begin{abstract}
-  Predictive states for stochastic processes are a non-parametric and
+  Predictive states for stochastic processes are a nonparametric and
   interpretable construct with relevance across a multitude of modeling
   paradigms. Recent progress on the self-supervised reconstruction of predictive
-  states from time-series data has focused on the use of reproducing kernel
+  states from time-series data focused on the use of reproducing kernel
   Hilbert spaces. Here, we examine how Wasserstein distances may be used to
   detect predictive equivalences in symbolic data. We construct a
-  finite-dimensional embedding of sequences based on the Cantor set, and use
+  finite-dimensional embedding of sequences based on the Cantor set and use
   distances in this embedding to compute Wasserstein distances between
   distributions over sequences (``predictions''). We show that analyzing the
-  resulting geometry (via hierarchical clustering and dimension reduction)
+  resulting geometry via hierarchical clustering and dimension reduction
   provides insight into the temporal structure of processes ranging from the
-  relatively simple (\emph{e.g.}\ hidden Markov models) to the very complex
-  (\emph{e.g.}\ indexed grammars).
+  relatively simple (\emph{e.g.}, finite-state hidden Markov models) to the
+  very complex (\emph{e.g.}, infinite-state indexed grammars).
 \end{abstract}
 
 %%
@@ -190,7 +190,7 @@ Data Mining}{August 2022}{Washington, DC, USA}
 %%
 %% Keywords. The author(s) should pick words that accurately describe % the work
 %being presented. Separate the keywords with commas.
-\keywords{time series, predictive states, wasserstein distance, hierarchical clustering}
+\keywords{time series, predictive states, Cantor set, Wasserstein distance, hierarchical clustering}
 
 %% A "teaser" image appears between the author and affiliation % information and
 %the body of the document, and typically spans the % page.
@@ -203,166 +203,179 @@ Data Mining}{August 2022}{Washington, DC, USA}
 \section{Introduction}
 Suppose that we have a finite sequence $x_1 \dots x_L$ of categorical
 observations drawn from a temporal process. We may suppose that the process is
-stationary (time-translation-invariant) and ergodic (has a tendency to explore
+stationary (time-translation invariant) and ergodic (explores
 all possible behaviors) \cite{Kall01a,Shal07a}. We may wish to forecast from the
 observed information the behavior of the next $n$ observations. If we suspect
-that temporal correlations of the process do not matter much beyond $k$ symbols,
-then we can use the data we have to take all subsequences of length $n+k$,
+that the process' temporal correlations do not matter much beyond $k$ symbols,
+then we take our data to be all subsequences of length $n+k$,
 splitting each subsequence into words of length $k$ and $n$ respectively. From
-these ``past/future'' pairs we could construct an empirical conditional
+these ``past/future'' pairs we can construct an empirical conditional
 distribution
-\begin{equation}\label{eq:conditional}
-  \hat{P}_{x_{1}\dots x_{n}|x_{-k+1}\dots x_0} = 
+\begin{align*}
+  \widehat{P}_{x_{1}\dots x_{n}|x_{-k+1}\dots x_0} = 
   \frac{C_{x_{-k+1}\dots x_{n}}}{C_{x_{-k+1}\dots x_0}}
-\end{equation}
+  ~,
+\end{align*}
 where $C_{w}$ is the number of times the word $w$ appears in our sequence $x_1
 \dots x_L$. 
 
-But suppose now that we do not know how long-range the temporal dependencies in
-our process can stretch. Even very simple stochastic processes can have infinite
-Markov order, indicating potential long-term dependence of future observations
-on the past \cite{Uppe97a}. Given sufficient data, it would be desirable to take
-pasts of arbitrary length, and converge towards some prediction conditioned on
-the \emph{infinite} past:
-\begin{equation}\label{eq:convergence}
+Suppose, though, that we do not know how long-range the process' temporal
+dependencies can stretch. Even very simple stochastic processes can have
+infinite Markov order, indicating potential long-term dependence of future
+observations on the past \cite{Uppe97a}. Given sufficient data, it would be
+desirable to take pasts of arbitrary length and converge towards a prediction
+conditioned on the \emph{infinite} past:
+\begin{align}
   {P}_{x_{1}\dots x_{n}|\overleftarrow{x}}
   = \lim_{k\rightarrow\infty}
-  \hat{P}_{x_{1}\dots x_{n}|x_{-k}\dots x_0}
-\end{equation}
-where $\overleftarrow{x}$ denotes an infinite sequence $\overleftarrow{x} =
-(\dots,x_{-1},x_0)$ of observations stretching into the past. This mathematical
-ideal is known to previous literature as the \emph{causal} or \emph{predictive
-state} \cite{Crut88a,Jaeg00a}. Formally, the conditional predictions
-${P}_{x_{1}\dots x_{n}|\overleftarrow{x}}$ for all forecast lengths $n$ together
-describe a \emph{probability measure} over future sequences $\overrightarrow{x}
-= (x_1,x_2,\dots)$; the predictive state is this measure. We will denote it
-simply by $P_{\overleftarrow{x}}$.
+  \widehat{P}_{x_{1}\dots x_{n}|x_{-k}\dots x_0}
+\label{eq:convergence}
+\end{align}
+with the infinite sequence $\overleftarrow{x} = (\dots,x_{-1},x_0)$ of
+observations stretching into the past. This mathematical ideal is known as the
+\emph{causal} or \emph{predictive state} \cite{Crut88a,Jaeg00a}. Formally, the
+conditional predictions ${P}_{x_{1}\dots x_{n}|\overleftarrow{x}}$ for all
+forecast lengths $n$ together describe a \emph{probability measure} over future
+sequences $\overrightarrow{x} = (x_1,x_2,\dots)$; the predictive state is this
+measure. We denote it simply $P_{\overleftarrow{x}}$.
 
-Predictive states have been utilized for inference and modeling in dynamical
+Predictive states are employed for inference and modeling in dynamical
 systems \cite{Crut92c,Emen16a,Salo19a}, renewal processes and spike-trains
-\cite{Marz14e,Marz15a}, condensed matter physics \cite{Varn12a,Varn14a} and
-spatiotemporal systems \cite{Rupe19a,Rupe19b,Rupe20a}, and a deep mathematical
-theory of predictive state inference has been correspondingly developed
+\cite{Marz14e,Marz15a}, condensed matter physics \cite{Varn12a,Varn14a}, and
+spatiotemporal systems \cite{Rupe19a,Rupe19b,Rupe20a}. A deep mathematical
+theory of predictive-state inference has been correspondingly developed
 \cite{Jaeg00a,Shal02a,Jame04a,Stil07b,Stre13a,Thon15a,Marz19a,Brod20a}. Despite
-this, universal conditions for predictive state convergence were not given until
+this, universal conditions for predictive-state convergence were not given until
 recently. It is now known that if the dataset $x_1 \dots x_L$ is drawn from any
-stationary process, and if $L$ is sufficiently large, then Eq.
-\eqref{eq:convergence} will converge for any $n$ and a probability-1 subset of
+stationary process and if $L$ is sufficiently large, then Eq.
+\eqref{eq:convergence} converges for any $n$ and a probability-$1$ subset of
 pasts $\overleftarrow{x}$ \cite{Loom21a}. In the language of measures,
 $P_{\overleftarrow{x}}$ converges \emph{in distribution}, with respect to the
 \emph{product topology} of the space of sequences $\mathcal{X}^\mathbb{N}$.
 
-The general goals of predictive state analysis are typically threefold
-\cite{Shal01a}. The first is to understand the overall structure of how the
-predictive states relate to one another geometrically, and possibly use this
-geometry to classify pasts based on equivalence of their predictive states. The
-second is to actually reproduce the prediction to a specified accuracy. The
-third is to understand the dynamics of how predictions evolve under a stream of
-new observations. We will focus in this paper on the first, as it is a crucial
-building block to achieving the other two.
+The broad goals of predictive-state analysis are threefold \cite{Shal98a}. The
+first is to understand the overall structure of how the predictive states
+relate to one another geometrically and, possibly, use this geometry to
+classify pasts based on equivalence of their predictive states. The second is
+to actually reproduce the prediction to a specified accuracy. The third is to
+understand the dynamics of how predictions evolve under a stream of new
+observations. The following focuses on the first, as it is a crucial building
+block to achieving the other two.
 
-Recent attempts at reconstructing the geometry of predictive states have focused
-on embedding them in reproducing kernel Hilbert spaces
-\cite{Song09a,Song10a,Boot13a,Brod20a,Loom21a}, to great effect largely because
-convergence in Hilbert spaces generated by universal kernels is equivalent to
-convergence in distribution \cite{Srip10a}. That is, these embeddings allow
-accurate representations of predictive states because they respect the product
-topology of sequences in the same way that predictive states themselves do. 
+Recent attempts to reconstruct the geometry of predictive states embedded them
+in reproducing kernel Hilbert spaces
+\cite{Song09a,Song10a,Boot13a,Brod20a,Loom21a}. This was achieved to great
+effect largely since convergence in Hilbert spaces generated by universal
+kernels is equivalent to convergence in distribution \cite{Srip10a}. That is,
+these embeddings allow accurate representations of predictive states because
+they respect the product topology of sequences in the same way that predictive
+states themselves do. 
 
-Understanding the source of the power of RKHS methods in predictive state
-analysis frees us to consider other options. In this paper, we will embed
+Understanding the source of the power of RKHS methods in predictive-state
+analysis frees us to consider other options. The following embeds
 symbolic sequences in a one-dimensional space that has the same topology as the
 product space. This embedding is inspired by the fractal Cantor set
 \cite{Kurk03a}. Predictive states can then be thought of as distributions in
 this one-dimensional space. We then use the Wasserstein distance to compute the
-geometry between predictive states, which can be computed with a closed-form
-integral for one-dimensional distributions. This works as an alternative to
-RKHS-based distances because the Wasserstein distance also reproduces the
+geometry between predictive states, which is determined by a closed-form
+integral for one-dimensional distributions. This operates as an alternative to
+RKHS-based distances since the Wasserstein distance also reproduces the
 topology of convergence in distribution \cite{Pane19a}. The resulting distance
-matrix can be used to find low-dimensional embeddings \cite{Borg05a} of the
+matrix then is used to find low-dimensional embeddings \cite{Borg05a} of the
 geometry or hierarchical clusterings \cite{Mull11a} of the predictive states.
-The latter, in particular, when combined with our fractal embedding, provides a
-highly interpretable visualization of the predictive state space.
+When combined with the fractal embedding, the latter, in particular, provides a
+highly interpretable visualization of the predictive-state space.
 
 \section{Example processes}
-The methods in this paper are intended to be applied toward stationary and
-ergodic stochastic processes which produce categorical time-series data. For our
-intents we can think of a stochastic process as a collection of probability
+
+The methods here are intended to be applied to stationary and ergodic
+stochastic processes that generate categorical time-series data. For these
+purposes we consider a stochastic process to be a collection of probability
 distributions $\Prob{\mu}{x_1\dots x_L}$ over any finite, contiguous sequence,
-taking values in a finite set $\mathcal{X}$. Formally this describes a measure
-$\mu$ over the set of all bi-infinite sequences $(\dots,x_{-1},x_0,x_1,\dots)\in
-\mathcal{X}^{\mathbb{Z}}$. These sorts of processes can be generated by a number
-of systems with widely varying complexity. Most popularly studied are those
-methods often characterized as having some degree of ``finite memory'': Markov
-models, hidden Markov models, and observable operator models (also termed
-generalized hidden Markov models) \cite{Uppe97a,Jaeg00a}. Beyond these one can
-also generate processes using probabilistic grammars, such as probabilistic
-context-free and indexed grammars \cite{Gema00a}. Additionally, coarse-grained
-data from dynamical systems (such as the logistic map) can display behavior
-varying widely in complexity \cite{Crut92c}. In this paper we will refer back
-frequently to the following example processes:
+taking values in a finite set $\mathcal{X}$. Formally, this describes a measure
+$\mu$ over the set of all bi-infinite sequences $(\dots,x_{-1},x_0,x_1,\dots)
+\in \mathcal{X}^{\mathbb{Z}}$.
+
+These processes are generated by a number of systems with widely varying
+complexity. Most popularly studied are those often characterized as having a
+degree of ``finite memory'': \emph{Markov chains}, \emph{hidden Markov chains},
+and \emph{observable operator models} (also termed \emph{generalized hidden
+Markov chains}) \cite{Uppe97a,Jaeg00a}. Beyond these, one can also generate
+processes using probabilistic grammars, such as probabilistic context-free and
+indexed grammars \cite{Gema00a}. Additionally, coarse-grained data from chaotic
+dynamical systems---such as the \emph{logistic map}---display behavior varying
+widely in complexity \cite{Crut92c}.
+
+We refer back frequently to the following example processes:
 \begin{enumerate}
-  \item The \emph{even process} can be generated by repeatedly tossing a coin
-  and writing down a $0$ for every tail and $11$ for every head. The process is
-  essentially random except for the constraint that $1$'s can only appear in
-  contiguous blocks of even size. The even process has infinite Markov order but
-  can be generated by a two-state hidden Markov process \cite{Crut01a}.
-  \item The $a^n b^n$ \emph{process} can be generated by choosing a random
-  integer $n\geq 1$ (we will suppose via a Poisson process) and writing $n$
-  $\mathtt{a}$'s followed by an equal number of $\mathtt{b}$'s, and then
-  repeating this process indefinitely. The result will be sequences where any
-  contiguous block of $\mathtt{a}$'s is followed by a block of $\mathtt{b}$'s of
-  equal size. The $\mathtt{a}^n \mathtt{b}^n$ process cannot be modeled by any
-  hidden Markov model, though it is a simple example of a probabilistic
-  context-free grammar \cite{Hopc06a}.
-  \item The $x+f(x)$ \emph{process} is a probabilistic context-free grammar
-  modeling simple mathematical expressions. It has terminal symbols
-  $\{\mathtt{(}\ ,\ \mathtt{)}\ ,\ \mathtt{;}\ ,\ \mathtt{+}\ ,\ \mathtt{f}\ ,\
-  \mathtt{x}\}$ and non-terminals $\{A,B,C\}$, and starts with a sequence osf
-  $A$'s with the production rules:
-  \begin{align*}
+\item The \emph{even process} can be generated by repeatedly tossing a coin
+	and writing down a $0$ for every tail and $11$ for every head. The process
+	is essentially random except that $1$s only appear in contiguous blocks of
+	even size bounded by $0$s. The even process has infinite Markov order but
+	can be generated by a two-state hidden Markov chain \cite{Crut01a}.
+\item The $a^n b^n$ \emph{process} can be generated by choosing a random
+	integer $n\geq 1$ (we suppose via a Poisson process) and writing $n$
+	$\mathtt{a}$'s followed by an equal number of $\mathtt{b}$'s, and then
+	repeating this procedure indefinitely. This results in sequences where any
+	contiguous block of $\mathtt{a}$s is followed by a block of $\mathtt{b}$s
+	of equal size. The $\mathtt{a}^n \mathtt{b}^n$ process cannot be generated
+	by any finite hidden Markov chain, though it is a simple example of a
+	probabilistic context-free language \cite{Hopc06a}.
+\item The $x+f(x)$ \emph{process} is a probabilistic context-free language
+	modeling the syntactic structure of simple mathematical expressions. It has
+	terminal symbols $\{\mathtt{(}\ ,\ \mathtt{)}\ ,\ \mathtt{;}\ ,\
+	\mathtt{+}\ ,\ \mathtt{f}\ ,\ \mathtt{x}\}$ and nonterminals $\{A,B,C\}$,
+	and starts with a sequence of $A$s. Sequences are generated by applying the
+	production rules:
+\begin{align*}
     A &\mapsto B\ \mathtt{+}\ C\ \mathtt{;}\ |\ C\ \mathtt{;}\\
     B &\mapsto B\ \mathtt{+}\ C\ |\ C\\
     C &\mapsto \mathtt{f(}B\mathtt{)}\ |\ \mathtt{x}
-  \end{align*}
-  \item The $a^n b^n c^n$ \emph{process} is a probabilistic indexed grammar
-  \cite{Hopc06a} which is analagous to $\mathtt{a}^n \mathtt{b}^n$ except after
-  writing the blocks of $\mathtt{a}$'s and $\mathtt{b}$'s, we also write a block
-  of $\mathtt{c}$'s of length $n$.
-  \item The \emph{Feigenbaum process} is generated by sampling from the time
-  series of the logistic map at critical parameter $r\approx 3.56995$:
-  \begin{equation*}
+  ~.
+\end{align*}
+\item The $a^n b^n c^n$ \emph{process} is a probabilistic indexed language
+	\cite{Hopc06a} that is analogous to $\mathtt{a}^n \mathtt{b}^n$ except
+	after writing the blocks of $\mathtt{a}$'s and $\mathtt{b}$'s, we also
+	write a block of $\mathtt{c}$'s of length $n$.
+\item The \emph{Morse-Thue process} is generated by sampling from the time
+	series of the logistic map at critical ``onset of chaos'' parameter
+	$r_c \approx 3.56995$:
+\begin{align*}
     y_{t+1} = r y_t(1-y_t)
-  \end{equation*}
-  and then coarse-graining the data by taking $x_t = 0$ if $0< y_t \leq
-  \frac{1}{2}$ and $x_t = 1$ if $\frac{1}{2} < y_t <1$ \cite{Kurk03a}.
-  Alternatively, we can generate this process by starting with a single $0$ and
-  executing the replacements $0\mapsto 11$ and $1 \mapsto 01$ consecutively. The
-  result of the Feigenbaum process is indexed-context free \cite{Crut92c}.
+\end{align*}
+	and then coarse-graining the data by taking $x_t = 0$ if $0< y_t \leq
+	\frac{1}{2}$ and $x_t = 1$ if $\frac{1}{2} < y_t <1$ \cite{Kurk03a}.
+	Alternatively, we can generate this process by starting with a single $0$
+	and executing the replacements $0 \mapsto 11$ and $1 \mapsto 01$
+	consecutively. The resulting process is an indexed-context free language
+	\cite{Crut92c}.
 \end{enumerate}
 
-\section{Cantor-embedding sequences}
 \begin{figure*}[h]
-  \centering
-  \includegraphics[width=0.4\linewidth]{../plots/even_CANTOR.png}
-  \includegraphics[width=0.4\linewidth]{../plots/anbn_CANTOR.png}
-  \includegraphics[width=0.4\linewidth]{../plots/anbncn_CANTOR.png}
-  \includegraphics[width=0.4\linewidth]{../plots/x+f(x)_CANTOR.png}
-  \caption{ Cantor plots for the even, $\mathtt{a}^n\mathtt{b}^n$,
-    $\mathtt{a}^n\mathtt{b}^n\mathtt{c}^n$, and $\mathtt{x+f(x)}$ processes.
-    Each point $(x,y)$ corresponds to a pair of sequences corresponding to the
-    past and future respectively. The symbol on the $x$ ($y$) axis indicate that
-    all points above (to the right of) that symbol have a past (future) whose
-    most recent observation is that symbol. Though not marked, further
-    proportional subdivisions of each segment of the axes would indicate the
-    value of the second, third, \emph{etc.} symbols. For instance, one can read
-    from the $\mathtt{x+f(x)}$ fractal that any past which ends in $\mathtt{f}$
-    must be paired with a future beginning in $\mathtt{(f}$ or $\mathtt{(x}$. }
-    \label{fig:cantor}
-  \Description{Four fractals are displayed, respectively labeled as the even,
-  $\mathtt{a}^n\mathtt{b}^n$, $\mathtt{a}^n\mathtt{b}^n\mathtt{c}^n$, and
-  $\mathtt{x+f(x)}$ processes.}
+\centering
+\includegraphics[width=0.4\linewidth]{../plots/even_CANTOR.png}
+\includegraphics[width=0.4\linewidth]{../plots/anbn_CANTOR.png}
+\includegraphics[width=0.4\linewidth]{../plots/anbncn_CANTOR.png}
+\includegraphics[width=0.4\linewidth]{../plots/x+f(x)_CANTOR.png}
+\caption{Cantor plots for the even, $\mathtt{a}^n\mathtt{b}^n$,
+	$\mathtt{a}^n\mathtt{b}^n\mathtt{c}^n$, and $\mathtt{x+f(x)}$ processes.
+	Each point $(x,y)$ corresponds to a pair of sequences corresponding to the
+	past and future, respectively. The symbol on the $x$ ($y$) axis indicates
+	that all points above (to the right of) that symbol have a past (future)
+	whose most recent observation is that symbol. Though not marked, further
+	proportional subdivisions of each segment of the axes indicate the value of
+	the second, third, \emph{etc.} symbols. For instance, one can read from the
+	$\mathtt{x+f(x)}$ fractal that any past ending in $\mathtt{f}$ must be
+	paired with a future beginning in $\mathtt{(f}$ or $\mathtt{(x}$.
+	}
+\label{fig:cantor}
+\Description{Four fractals are displayed, respectively labeled as the even,
+	$\mathtt{a}^n\mathtt{b}^n$, $\mathtt{a}^n\mathtt{b}^n\mathtt{c}^n$, and
+	$\mathtt{x+f(x)}$ processes.
+	}
 \end{figure*}
+
+\section{Cantor-embedding sequences}
 
 The geometry of sequences is inherently self-similar. Given an infinite sequence
 $\overrightarrow{x} = (x_1,x_2,\dots)$, we can split it into its leading word
@@ -372,51 +385,49 @@ can be factored into $\mathcal{X}^L\times \mathcal{X}^\mathbb{N}$ for any $L$.
 The fractal nature of sequence-space is encoded in the structure of its
 \emph{product topology}.
 
-We can exploit this self-similarity in an interesting way by constructing a
-mapping between sequence space and the celebrated Cantor set (or one of its
+We exploit this self-similarity in an interesting way by constructing a mapping
+between sequence space and the celebrated \emph{Cantor set} (or one of its
 generalizations). Suppose a symbolic sequence $(x_1,x_2,\dots)$ takes values in
 an alphabet $\mathcal{X}$ of size $|\mathcal{X}|$. To each $x\in\mathcal{X}$ we
-can associate some unique integer between $0$ and $|\mathcal{X}|-1$ inclusive;
-call this $J(x)$. Then there is a function $C:\mathcal{X}^\mathbb{N}\rightarrow
-[0,1]$ which maps every sequence to a positive real number:
-\begin{equation}
+associate a unique integer between $0$ and $|\mathcal{X}|-1$ inclusive; call
+this $J(x)$. Then, there is a function $C:\mathcal{X}^\mathbb{N}\rightarrow
+[0,1]$ that maps every sequence to a positive real number:
+\begin{align*}
   C(x_1,x_2,\dots) = \sum_{k=1}^\infty \frac{2J(x_k)}{(2|\mathcal{X}|-1)^k}
-\end{equation}
+  ~.
+\end{align*}
 For instance, suppose that $|\mathcal{X}|=2$ has two elements; then $C$ maps the
 sequence to a point the traditional Cantor set fractal. For a finite sequence of
 length $L$, truncate the sum at $k=L$.
 
 Remarkably, the embedding $C$ has the property that for any continuous function
 $f$ on $[0,1]$, the function $F(\overrightarrow{x}) = f(C(\overrightarrow{x}))$
-is continuous on $\mathcal{X}^\mathbb{N}$; further, if $F$ is continuous on
+is continuous on $\mathcal{X}^\mathbb{N}$. Further, if $F$ is continuous on
 $\mathcal{X}^\mathbb{N}$, then $f(y) = F(C^{-1}(y))$ is continuous on the image.
-Thus the embedding $C$ respects the basic structure of the product topology
+Thus, the embedding $C$ respects the basic structure of the product topology
 \cite{Kurk03a}.
 
 Stationary processes, due to their time-translation invariance, inherit the
-fractal temporality of sequence space. This can be neatly visualized: given a
-length-$L$ sample $x_1\dots x_L$, and some $n,k>0$, take a sliding window of
-pasts and futures, $(x_{t-n+1}\dots x_t, x_{t+1}\dots x_k)$ for $t=n,\dots,L-k$.
-For each past-future pair, compute the truncated Cantor embeddings on the
+fractal temporality of sequence space. This can be easily visualized: Given a
+length-$L$ sample $x_1\dots x_L$, and $n,k>0$, take a sliding window of pasts
+and futures, $(x_{t-n+1}\dots x_t, x_{t+1}\dots x_k)$ for $t=n,\dots,L-k$.  For
+each past-future pair, compute the truncated Cantor embeddings on the
 \emph{reversed} past and (unreversed) future: $\left(C(x_t \dots
 x_{t-n+1}),C(x_{t+1}\dots x_k)\right)$. The resulting pairs of real numbers can
-be plotted as $(x,y)$-values on a scatter plot. The fractal which emerges
-contains, in essence, all information necessary to understand the temporal
-structures of the process. See Fig. \ref{fig:cantor} for examples and guidance
-on how to interpret the visualization.
+be plotted as $(x,y)$-values on a scatter plot. The fractal that emerges
+contains, in essence, all information necessary to understand a process'
+temporal structures. See Fig. \ref{fig:cantor} for examples and guidance on how
+to interpret the visualization.
 
-It is worth noting that for $|\mathcal{X}|>2$, the embedding $C$ also introduces
-additional structure which may or may not be desirable. The association of each
-symbol $x$ with an integer $j_x$ endows an ordinal structure on the set
-$\mathcal{X}$; this ordinality is present in the macroscopic geometry of
-$C\left(\mathcal{X}^{\mathbb{N}}\right)$. Later we will examine higher-dimension
-embeddings which do not have this ordinal aspect; however, they will come at the
-cost of increased computational complexity for the Wasserstein distance
-computation, so for now we will assume that ordinal artifacts are either desired
-or sufficiently tolerable as to not outweight the computational benefits of
-working in one dimension.
-
-\section{Wasserstein distance on predictive states}
+Note that for $|\mathcal{X}|>2$ the embedding $C$ introduces additional
+structure that may or may not be desired. Associating each symbol $x$ with an
+integer $j_x$ endows an ordinal structure on the set $\mathcal{X}$. This
+ordinality is present in the macroscopic geometry of
+$C\left(\mathcal{X}^{\mathbb{N}}\right)$. Later, we examine higher-dimension
+embeddings that do not have this. However, they come at the cost of increased
+computational complexity when determining the Wasserstein distance. So, for now,
+we assume that ordinal artifacts are either desired or sufficiently tolerable
+as to not outweigh the computational benefits of working in one dimension.
 
 \begin{algorithm}[t]
   \SetKwData{UnqPasts}{UnqPasts}\SetKwData{Cantors}{Cantors}\SetKwData{Wass}{Wass}
@@ -466,292 +477,311 @@ working in one dimension.
   \label{alg:cantorwass}
 \end{algorithm}
 
-The Cantor fractals in Fig. \ref{fig:cantor} can be thought of as probability
-distributions. We can consequently interpret a vertical slices of the fractal,
-located at horizontal position $C(\overleftarrow{x})$, as visualizing the
-predictive state $P_{\overleftarrow{x}}$ as a distribution over Cantor-embedded
-futures, $C(\overrightarrow{x})$.
+\section{Wasserstein distance on predictive states}
 
-For example, by analyzing the Cantor fractal of the even process, one may notice
-that there are effectively only 2 distinct predictive states---every vertical
-column is just one of two types. This corresponds with the 2 states of the
-hidden Markov model which generates the even process.
+Figure \ref{fig:cantor}'s Cantor fractals represent probability distributions:
+We interpret a vertical slice of the fractal, located at horizontal position
+$C(\overleftarrow{x})$, as visualizing the predictive state
+$P_{\overleftarrow{x}}$ as a distribution over Cantor-embedded futures
+$C(\overrightarrow{x})$.
 
-This visualization allows us to see how predictive states distribute their
-probability over the intrinsic geometry of potential futures. We can compare
-predictive states not only on how much their supports overlap, but on how
-geometrically close their supports are to one another. For the $\mathtt{a}^n
-\mathtt{b}^n$ process, for example, we can see that the first few columns
-(corresponding to pasts of the form $\dots \mathtt{b a}^n$ for some $n$) are
-inherently similar to one another, though they are shifted upwards the closer to
-the axis they are (which corresponds to the increasing number of $\mathtt{b}$'s
-in the predicted future as $n$ increases).
+For example, by examining the even process' Cantor fractal, one notices that
+there are effectively only $2$ distinct predictive states---every vertical
+column is just one of two types. This corresponds with the $2$ states of the
+hidden Markov model that generates the even process.
+
+This allows us to see how predictive states distribute their probability over
+the intrinsic geometry of potential futures. We compare predictive states not
+only on how much their supports overlap, but on how geometrically close their
+supports are to one another. For the $\mathtt{a}^n \mathtt{b}^n$ process, for
+example, we see that the first few columns (corresponding to pasts of the form
+$\dots \mathtt{b a}^n$ for some $n$) are inherently similar to one another,
+though they are shifted upwards the closer to the axis they are. (The latter
+corresponds to the increasing number of $\mathtt{b}$s in the predicted future
+as $n$ increases.)
 
 The intuitive distance metric between probability measures for capturing this
 underlying geometry is the Wasserstein metric \cite{Pane19a}. Given two measures
-$\mu$, $\nu$ defined on a metric space $\mathcal{M}$ with metric $d$, the
-Wasserstein distance between $\mu$ and $\nu$ is given by
-\begin{equation*}
+$\mu$ and $\nu$ defined on a metric space $\mathcal{M}$ with metric $d$, the
+Wasserstein distance between $\mu$ and $\nu$ is given by:
+\begin{align*}
   W(\mu,\nu) = \min_{\pi\in \Gamma(\mu,\nu)}
    \int_{\mathcal{M}\times\mathcal{M}} 
    d(x,y) d\pi(x,y)
-\end{equation*}
-where $\Gamma(\mu,\nu)$ is the set of all measures on
-$\mathcal{M}\times\mathcal{M}$ whose left and right marginals are $\mu$ and
-$\nu$ respectively. This can be interpreted as the minimal cost for ``shifting''
-the probability mass from one distribution to match shape of the other. 
+   ~,
+\end{align*}
+where $\Gamma(\mu,\nu)$ is the set of all measures on $\mathcal{M} \times
+\mathcal{M}$ whose left and right marginals are $\mu$ and $\nu$, respectively.
+It is the minimal cost to ``shift'' the probability mass from one distribution
+to match shape of the other. 
 
-$W(\mu,\nu)$ the solution to a constrained linear optimization. As a function of
-distributions, $W(\mu,\nu)$ is continuous with respect to convergence in
-distribution; in fact, convergence under the Wasserstein distance is equivalent
-to convergence in distribution on compact spaces. This makes $W(\mu,\nu)$ ideal
-for measuring geometry between predictive states, since empirical estimates of
-these are known to converge in distribution.
+$W(\mu,\nu)$ is the solution to a constrained linear optimization. As a
+function of distributions, $W(\mu,\nu)$ is continuous with respect to
+convergence in distribution. In fact, convergence under the Wasserstein
+distance is equivalent to convergence in distribution on compact spaces. This
+makes $W(\mu,\nu)$ ideal for measuring geometry between predictive states,
+since empirical estimates of these are known to converge in distribution.
 
 When $\mathcal{M} \subseteq \mathbb{R}$, there is in fact a closed-form solution
 to the Wasserstein optimization problem \cite{Thas10a}. Let $F$ and $G$
-respectively be the cumulative distributions functions of $\mu$ and $\nu$. Then
-\begin{equation}
+respectively be the cumulative distributions functions of $\mu$ and $\nu$.
+Then:
+\begin{align*}
   W(\mu,\nu) = \int_{-\infty}^\infty \left|F(t)-G(t)\right| dt
-\end{equation}
+  ~.
+\end{align*}
 This closed-form solution is considerably faster to compute than the linear
-optimization required for arbitrary metric spaces. Because the Cantor embedding
-embeds the space of sequences directly into $[0,1]$, we can utilize this
-formula.
+optimization required for arbitrary metric spaces. Since the Cantor embedding
+embeds the space of sequences directly into $[0,1]$, we can directly employ
+this formula.
 
-The combination of the Cantor embedding and the Wasserstein distance lays out a
-fairly straightforward programme for analyizing a categorical time series:
+Combining the Cantor embedding and Wasserstein distance leads to a
+straightforward program for analyzing categorical time series:
 \begin{enumerate}
-  \item Apply Algorithm \ref{alg:cantorwass} to the data stream $x_1\dots x_L$
-  for a specified past length $k$ and future length $n$, retrieving the set of
-  unique observed pasts, the empirical Cantor distributions corresponding to
-  each past, and the matrix of Wasserstein distances computed from these
-  distributions.
-  \item Use the Wasserstein distance matrix to perform additional methods of
-  geometric data analysis, such as hierarchical clustering \cite{Mull11a} and
-  multidimensional scaling \cite{Borg05a}, in order to elucidate the relative
-  geometry of the predictive states.
+\item Apply Algorithm \ref{alg:cantorwass} to the data stream $x_1\dots x_L$
+	for a specified past length $k$ and future length $n$, retrieving the (i)
+	set of unique observed pasts, (ii) empirical Cantor distributions
+	corresponding to each past, and (iii) matrix of Wasserstein distances
+	computed from these distributions.
+\item To elucidate the relative geometry of the predictive states, use the
+	Wasserstein distance matrix to perform additional methods of geometric data
+	analysis, such as hierarchical clustering \cite{Mull11a} and
+	multidimensional scaling \cite{Borg05a}.
 \end{enumerate}
-In the next two sections we examine the results of this approach.
+The next two sections examine the results of this approach.
+
+\begin{figure*}[ht]
+\centering
+\includegraphics[width=0.45\linewidth]{../plots/even_HCLUST.png}
+\includegraphics[width=0.45\linewidth]{../plots/anbn_HCLUST.png}
+\includegraphics[width=0.45\linewidth]{../plots/anbncn_HCLUST.png}
+\includegraphics[width=0.45\linewidth]{../plots/x+f(x)_HCLUST.png}
+\caption{(Upper left to lower right) Clustered Cantor diagrams of the even,
+	$\mathtt{a}^n\mathtt{b}^n$, $\mathtt{a}^n\mathtt{b}^n\mathtt{c}^n$, and
+	$\mathtt{x+f(x)}$ processes. Zoom for detail. For each, the vertical axis
+	shows all pasts of a given length $k$ along with their hierarchically
+	clustered dendrogram. $k=8$ for the even, $\mathtt{a}^n\mathtt{b}^n$, and
+	$\mathtt{a}^n\mathtt{b}^n\mathtt{c}^n$ processes and $k=4$ for the
+	$\mathtt{x+f(x)}$ process. For present purposes, the coloring threshold
+	was chosen to aid visual interpretation. The lines in each row show the
+	empirical distribution of Cantor-embedded futures observed following each
+	past. As such, the horizontal axis corresponds exactly to the vertical axis
+	of Fig. \ref{fig:cantor}.
+	}
+\label{fig:hclust}
+\Description{Four graphs are displayed. Each vertical axis has a list of
+	symbolic sequences organized by a hierarchical clustering tree. The
+	horizontal axis is a list of individual symbols. The content of each graph
+	is rows of fractal-distributed lines.
+	}
+\end{figure*}
 
 \section{Interpretable predictive states with hierarchical clustering}
-\begin{figure*}[ht]
-  \centering
-  \includegraphics[width=0.45\linewidth]{../plots/even_HCLUST.png}
-  \includegraphics[width=0.45\linewidth]{../plots/anbn_HCLUST.png}
-  \includegraphics[width=0.45\linewidth]{../plots/anbncn_HCLUST.png}
-  \includegraphics[width=0.45\linewidth]{../plots/x+f(x)_HCLUST.png}
-  \caption{From upper left to lower right, the clustered Cantor diagrams of the even, $\mathtt{a}^n\mathtt{b}^n$,
-  $\mathtt{a}^n\mathtt{b}^n\mathtt{c}^n$, and $\mathtt{x+f(x)}$ processes (zoom
-  for detail). On
-  each diagram, the vertical axis shows all pasts of a given length (length
-  $k=8$ for the even, $\mathtt{a}^n\mathtt{b}^n$ and
-  $\mathtt{a}^n\mathtt{b}^n\mathtt{c}^n$ processes and $k=4$ for the
-  $\mathtt{x+f(x)}$ process), along with their hierarchically clustered
-  dendrogram. For the purposes of this graphic the coloring threshold was
-  chosen to aid in visual interpretation. The lines in each row show the
-  empirical distribution of Cantor-embedded futures observed following each
-  past. As such the horizontal axis corresponds exactly to the vertical axis of
-  Fig. \ref{fig:cantor}.}
-    \label{fig:hclust}
-  \Description{Four graphs are displayed. Each vertical axis has a list of symbolic sequences
-  organized by a hierarchical clustering tree. The horizontal axis is a list of
-  individual symbols. The content of each graph is rows of fractally-distributed
-  lines.}
-\end{figure*}
-In Fig. \ref{fig:hclust} we display the result of collecting the Cantor-embedded
-empirical predictions for all pasts of a given length, for four processes (even,
-$\mathtt{a}^n \mathtt{b}^n$, $\mathtt{a}^n \mathtt{b}^n \mathtt{c}^n$ and
-$\mathtt{x+f(x)}$). In each case the Wasserstein distance between every pair of
-predictions was computed and used to hierarchically cluster the pasts (using the
-Ward method \cite{Mull11a}) with
-others that produced similar predictions.
+
+Figure \ref{fig:hclust} displays the result of collecting the Cantor-embedded
+empirical predictions for all pasts of a given length for four processes---even,
+$\mathtt{a}^n \mathtt{b}^n$, $\mathtt{a}^n \mathtt{b}^n \mathtt{c}^n$, and
+$\mathtt{x+f(x)}$. For each, the Wasserstein distance between every pair of
+predictions was computed and used to hierarchically cluster the pasts with
+others that produced similar predictions, using the Ward method \cite{Mull11a}.
 
 The resulting clustered Cantor plots offer a highly interpretable visualization
-of the relationship between pasts and futures, and of the geometry of the
-predictive states. They are, in a certain sense, a sorting of the columns in the
-Cantor fractals of Fig. \ref{fig:cantor}, with the whitespace between columns
-removed. For instance, the clustered Cantor plot of the Even process clearly
-contains the two major states, with a third ``transient'' state visible
-(corresponding to the increasingly unlikely event of never seeing a $0$ in a
-block of length $n$). This third state was previously hidden mostly out of view
-on the far-right side of the 2-dimensional Cantor plot of the even process in
-Fig. \ref{fig:cantor}.
+of the relationship between pasts and futures, and of the predictive states'
+geometry. Each plot, in a certain sense, sorts the columns in the Cantor
+fractals of Fig. \ref{fig:cantor} with the white space between columns removed.
+For instance, the even process's clustered Cantor plot clearly contains the two
+major states, with a third ``transient'' state visible. (The latter corresponds
+to the increasingly unlikely event of never seeing a $0$ in a block of length
+$n$.) This third state was previously hidden mostly out of view on the
+far-right side of the $2$-dimensional Cantor plot of the even process in Fig.
+\ref{fig:cantor}.
 
-Other features are worth remarking on. Close observation will show the reader
-that the hierarchical clustering allows for the (mostly) scale-free distinctions
-between pasts with subtle differences. For the $\mathtt{a}^n \mathtt{b}^n$
-process, pasts of the form $\dots \mathtt{b a}^n$ are distinguished for
-different $n$, as each involves a distinct number of $\mathtt{b}$'s appearing in
-the near future; meanwhile, the clustering scheme carefully distinguishes pasts
-of the form $\dots \mathtt{b a}^n \mathtt{b}^{n-k}$ for different $k$ but
-\emph{not} for different $n$, as $k$ is the essential variable for predicting
-the remaining number of $\mathtt{b}$'s. (The scale-free discernment of the
-algorithm begins to break down past $n=5$, which is the scale at which sampling
-error becomes relevant for our chosen sample size.)
+Other features are worth calling out. Close observation shows that hierarchical
+clustering reveals the (mostly) scale-free distinctions between pasts with
+subtle differences. For the $\mathtt{a}^n \mathtt{b}^n$ process, pasts of the
+form $\dots \mathtt{b a}^n$ are distinguished for different $n$, as each
+involves a distinct number of $\mathtt{b}$'s appearing in the near future.
+Meanwhile, the clustering scheme carefully distinguishes pasts of the form
+$\dots \mathtt{b a}^n \mathtt{b}^{n-k}$ for different $k$ but \emph{not} for
+different $n$, as $k$ is the essential variable for predicting the remaining
+number of $\mathtt{b}$'s. (The scale-free discernment of the algorithm breaks
+down past $n=5$---the scale at which sampling error becomes relevant for our
+chosen sample size.)
 
-Similar discernment can be noticed for the $\mathtt{a}^n \mathtt{b}^n
-\mathtt{c}^n$ and $\mathtt{x+f(x)}$ processes as well. We draw attention to the
-manner in which the presence of a semicolon in pasts from $\mathtt{x+f(x)}$
-affects the comparison of predictions.
+Similar discernment is seen for the $\mathtt{a}^n \mathtt{b}^n \mathtt{c}^n$
+and $\mathtt{x+f(x)}$ processes as well. We draw attention to the manner in
+which the presence of a semicolon in pasts from $\mathtt{x+f(x)}$ affects the
+comparison of predictions.
 
-By analyzing clustered Cantor plots, one can gain insight into the properties of
-pasts that make them similar in terms of future predictions---even if they are
+By analyzing clustered Cantor plots, one gains insight into the properties of
+pasts that make them similar in terms of future predictions, even if they are
 superficially quite distinct. Furthermore, the horizontal axis allows for
-continued use of the natural geometry of the Cantor set for visualizing the
-future forecasts associated with each cluster of predictions.
+continued use of the Cantor set's natural geometry for visualizing the future
+forecasts associated with each cluster of predictions.
 
 \begin{figure*}[ht]
-  \centering
-  \includegraphics[width=0.45\linewidth]{../plots/even_MDS.pdf}
-  \includegraphics[width=0.45\linewidth]{../plots/anbn_MDS.pdf}
-  \caption{Two scatterplots of the first two MDS coordinates of the
-  reconstructed predictive states, for the even and $\mathtt{a}^n\mathtt{b}^n$
-  processes respectively. The clusters are colored according to the scheme
-  determined by the dendrogram in Fig. \ref{fig:hclust} and the label on each
-  cluster describes the pattern which uniquely characterizes the pasts in that cluster.}
-    \label{fig:mds}
-  \Description{Two scatter plots with colored clusters of points are displayed,
-  with labels next to each cluster describing symbolic patterns.}
+\centering
+\includegraphics[width=0.45\linewidth]{../plots/even_MDS.pdf}
+\includegraphics[width=0.45\linewidth]{../plots/anbn_MDS.pdf}
+\caption{Scatterplots of the first two MDS coordinates of the reconstructed
+	predictive states: (Left) Even process. (Right) $\mathtt{a}^n\mathtt{b}^n$
+	process. Clusters colored according to the scheme determined by the
+	dendrogram in Fig. \ref{fig:hclust} and the label on each cluster describes
+	the pattern that uniquely characterizes the pasts in that cluster.
+	}
+\label{fig:mds}
+\Description{Two scatter plots with colored clusters of points are displayed,
+	with labels next to each cluster describing symbolic patterns.
+	}
 \end{figure*}
 
 \section{Predictive state geometry with multidimensional scaling}
-If we are willing to sacrifice direct visualization of future predictions, we
-may gain a more intuitive picture of the geometry of predictive state space. We
-can apply any desired dimensional reduction algorithm to the matrix of
-Wasserstein distances between predictions and obtain a coordinate representation
-of the similarities between predictive states.
 
-In Fig. \ref{fig:mds} we have plotted the first two dimensions of a
-multidimensional scaling (MDS) decomposition \cite{Borg05a} for the even process
-and the $\mathtt{a}^n\mathtt{b}^n$ process, with clusters colored in the same
-manner as in Fig. \ref{fig:hclust} and labeled by the specific pattern which
-distinguishes the pasts in some of the clusters. It should be noted that the
-clusters and the labels are directly drawn from \ref{fig:hclust} for reference,
-and are not a result of the MDS algorithm itself. However, interactive plotting
+Sacrificing direct visualization of future predictions leads to a more
+intuitive picture of predictive-state space geometry. Applying any desired
+dimension reduction algorithm to the matrix of Wasserstein distances between
+predictions yields a coordinate representation of the similarities between
+predictive states.
+
+Figure \ref{fig:mds} plots the first two dimensions of a multidimensional
+scaling (MDS) decomposition \cite{Borg05a} for the even and
+$\mathtt{a}^n\mathtt{b}^n$ processes. Clusters are colored in the same manner
+as in Fig. \ref{fig:hclust} and labeled by the specific pattern that
+distinguishes the pasts in some of the clusters. Note that the clusters and
+labels are directly drawn from Fig. \ref{fig:hclust} for reference. They are
+not the result of the MDS algorithm itself. However, interactive plotting
 approaches may allow for similar exploration from these decompositions without
 the need for prior clustering.
 
-The even process, as in all other cases we have seen thus far, has two dominant
-clusters of predictions, corresponding to the predictive states which result
-from seeing an even-sized block of $1$'s (or, equivalently, no $1$'s), and that
-resulting from seeing an odd-sized block of $1$'s. The
-$\mathtt{a}^n\mathtt{b}^n$ plot is much more sophisticated. Intriguingly, its
-geometry not only clearly distinguishes predictively distinct states, but it
-organizes them in a manner highly suggestive of an \emph{stack}, particularly
-appropriate given that stack automata are the natural analogue of hidden Markov
-models for context-free processes. As more $\mathtt{a}$'s are observed, we push
-further up the stack towards the upper-right corner of the figure, and as more
-$\mathtt{b}$'s are observed we pop out of the stack, back towards the lower left
-(representing equality between $\mathtt{a}$'s and $\mathtt{b}$'s).
+The even process, as in all other cases seen thus far, has two dominant
+prediction clusters. These correspond to the predictive states that result
+from seeing an even-sized block of $1$s (or, equivalently, no $1$s), and that
+result from seeing an odd-sized block of $1$s.
+
+The $\mathtt{a}^n\mathtt{b}^n$ plot is much more sophisticated. Intriguingly,
+its geometry not only clearly distinguishes predictively distinct states, but
+organizes them in a manner highly suggestive of an \emph{pushdown stack}. The
+latter is particularly appropriate given that stack automata are the natural
+analog of hidden Markov chains but for context-free languages. Observing more
+$\mathtt{a}$s pushes more symbols onto the stack, with the predictive states
+moving further up towards the plot's upper-right corner. And, as more
+$\mathtt{b}$'s are observed the top symbol is popped off the stack, and the
+predictive states move back towards the lower left. The latter represents
+equality between $\mathtt{a}$s and $\mathtt{b}$s.
 
 \begin{figure*}[h]
-  \centering
-  \includegraphics[width=\linewidth]{../plots/feig_MDS.pdf}
-  \caption{On the left is a scatterplot of the first two MDS coordinates 
-  of the reconstructed predictive states for the Feigenbaum process, 
-  color-coded by cluster. On the right, we display a scatterplot of the
-  corresponding points in the domain of the logistic map, plotting for each
-  point both the present value $y_t$ and the next value $y_{t+1}$, with the
-  $x=y$ line for reference. Each pair of color-coded arrows shows where each
-  cluster maps to under the action of the logistic map. The predictively
-  reconstructed clusters thus correspond to dynamically similar neighborhoods of
-  the logistic map domain.}
-    \label{fig:mds-feig}
-  \Description{A rectangular scatter plot of color-coded points is displayed on
-  the left, and on the right a square scatterplot of parabolically arranged
-  points with a diagonal line cutting through them. In the right plot the points
-  are colored with the same scheme as the left, and similarly colored arrows
-  point from clusters to the diagonal line or from the diagonal line to the next
-  cluster.}
+\centering
+\includegraphics[width=\linewidth]{../plots/feig_MDS.pdf}
+\caption{(Left) Scatterplot of the first two MDS coordinates of the
+	reconstructed predictive states for the Morse-Thue process, color-coded by
+	cluster. (Right) Scatterplot of the corresponding points in the domain of
+	the logistic map, plotting for each point both the present value $y_t$ and
+	the next value $y_{t+1}$, with the $x=y$ line for reference. Each pair of
+	color-coded arrows shows where each cluster maps to under the action of the
+	logistic map. The predictively reconstructed clusters thus correspond to
+	dynamically similar neighborhoods of the logistic map domain.
+	}
+\label{fig:mds-feig}
+\Description{A rectangular scatter plot of color-coded points is displayed on
+	the left, and on the right a square scatterplot of parabolically arranged
+	points with a diagonal line cutting through them. In the right plot the
+	points are colored with the same scheme as the left, and similarly colored
+	arrows point from clusters to the diagonal line or from the diagonal line
+	to the next cluster.
+	}
 \end{figure*}
 
-The geometric approach is particularly insightful when we compute the
-Wasserstein matrix between predictions estimated from Feigenbaum process data.
-Recall that the Feigenbaum process is just a coarse-graining of the iterated
-logistic map $y_{t+1} = ry_t(1-y_t)$ at the critical parameter $r\approx
-3.56995$. The resulting stream of $0$'s and $1$'s is an infamous instance of
-high complexity at the ``boundary of order and chaos'', as values of $r$ on
-either side tend to result in coarse-grainings which can be generated by hidden
-Markov models, but the Feigenbaum process is context-sensitive and therefores
-requires several orders higher of model complexity to capture its behavior.
+The geometric approach is particularly insightful when computing the
+Wasserstein matrix between predictions estimated from Morse-Thue process data.
+Recall that the Morse-Thue process is a coarse-graining of the iterated
+logistic map $y_{t+1} = ry_t(1-y_t)$ at the critical chaos parameter $r_c
+\approx 3.56995$. The resulting stream of $0$s and $1$s is a well-known
+instance of high complexity at the ``order-disorder border''. Specifically,
+setting parameter $r$ on either side of $r_c$ results in sequences that
+can be generated by finite hidden Markov chains. However, at $r_c$ itself the
+resulting Morse-Thue process is context-sensitive and therefore requires
+infinite predictive states. That is, when it comes to capturing its behavior,
+the process is several orders higher in model complexity. It is further up the
+Chomsky language hierarchy.
 
-Regardless, we show that the predictive state geometry reconstructed from a
-sufficiently large sample of the Feigenbaum process is capable of recovering the
-neighborhoods of $[0,1]$ which are relevant to the dynamics of the original
-logistic map. What we mean by this is that there is a correspondence between
-each past $x_{-n+1}\dots x_{0}$ and a subset $V_{x_{-n+1}\dots x_{0}}$, such
-that $V_{x_1\dots x_n}$ is the set of all points $y$ for which $x(f^{-t}(y)) =
-x_{-t}$ for $0\leq t < n$ (here $f(y) = ry(1-y)$ and $x(y)$ is the encoding
-$y\mapsto 0,1$). As it happens, pasts $x_{-n+1}\dots x_{0}$ whose predictive
+Despite this high order of structural complexity, the predictive state geometry
+reconstructed from a sufficiently large sample of the Morse-Thue process
+recovers the neighborhoods of $[0,1]$ that are relevant to the dynamics of the
+original logistic map. Said differently, there is a correspondence between each
+past $x_{-n+1}\dots x_{0}$ and a subset $V_{x_{-n+1}\dots x_{0}}$, such that
+$V_{x_1\dots x_n}$ is the set of all points $y$ for which $x(f^{-t}(y)) =
+x_{-t}$ for $0\leq t < n$. (Here, $f(y) = ry(1-y)$ and $x(y)$ is the encoding
+$y\mapsto \{0,1\}$.) As it happens, pasts $x_{-n+1}\dots x_{0}$ whose predictive
 states are close under the Wasserstein distance are also pasts for which the
-sets $f(V_{x_{-n+1}\dots x_{0}})$ are close (that is, they correspond to
-predictively similar ranges of the logistic map variable). 
+sets $f(V_{x_{-n+1}\dots x_{0}})$ are close. That is, they correspond to
+predictively similar ranges of the logistic map variable. 
 
-This relationship between the reconstructed predictive states of the Feigenbaum
-process, neighborhoods of the logistic variable $y$, and the logistic map
-dynamics is visualized in Fig. \ref{fig:mds-feig}. In short, despite the fact
-that the Feigenbaum process is a highly coarse-grained form of the logistic map,
-the essential geometry of that map can be recovered by reconstructing predictive
-state geometry with the Wasserstein metric and the Cantor embedding.
+Figure \ref{fig:mds-feig} directly visualizes the relationship between the
+reconstructed predictive states of the Morse-Thue process, neighborhoods of the
+logistic variable $y$, and the logistic map dynamics. In short, despite the
+fact that the Morse-Thue process is a highly coarse-grained form of the
+logistic map, the essential geometry of that map can be recovered by
+reconstructing predictive state geometry with the Wasserstein metric and the
+Cantor embedding.
 
-We should note that, because of the deterministic nature of the Feigenbaum
-process, the combination of the Wasserstein metric and the Cantor embedding is
-particularly important to achieving this result. Asymptotically, each past
-corresponds to a unique future, and so there is no asymptotically no overlap
-between predictions. The choice of the Cantor map allows us to place close
-together forecasts which match up to a certain time in the future, and the
-Wasserstein distance allows us to directly compare predictions whose supports
-are geometrically close. It is therefore the combination of these two approaches
-which enables the straightforward recovery of the underlying logistic geometry.
+Note that, due to the deterministic nature of the Morse-Thue process, the
+combination of the Wasserstein metric and the Cantor embedding is particularly
+important to achieving this result. Asymptotically, each past corresponds to a
+unique future. And so, there is asymptotically no overlap between predictions.
+The choice of the Cantor map facilitates placing together forecasts that match
+up to a certain time in the future. And, the Wasserstein distance allows
+directly comparing predictions whose supports are geometrically close. In this
+way, the combination of the two approaches enables the straightforward recovery
+of the underlying dynamical system's (logistic map's) geometry.
 
 \section{Concluding remarks}
-We have presented a general approach for predictive state analysis---Cantor
-fractal embedding sequences and Wasserstein distance comparison of
-predictions---and offered two approaches to visualizing the results of this
-method---one a direct application of multidimensional scaling, and the other
-being a clustered Cantor diagram built from combining hierarchical clustering
-with the introduced Cantor embedding.
 
-In comparison to the use of reproducing kernel Hilbert spaces, which is dominant
-approach to predictive states at present
-\cite{Song09a,Song10a,Boot13a,Brod20a,Loom21a}, our choice to combine the Cantor
-set with the Wasserstein distance may appear rather idiosyncratic, but there are
-strong benefits to both methods, and together the two methods synergize their
-benefits in a unique way. The topology of convergence in distribution can be
-replicated with both the Wasserstein distance and the RKHS inner product, but
-the Wasserstein distance depends on far fewer parameters (such as the choice of
-the eponymous kernel in RKHS approaches), and its value is directly
-interpretable in terms of the shapes of the distributions it compares.
+We presented a general approach for predictive state analysis---Cantor fractal
+embedding sequences and Wasserstein distance comparison of predictions. We
+offered two approaches to visualizing the results of this method---one a direct
+application of multidimensional scaling and the other being a clustered Cantor
+diagram built from combining hierarchical clustering with the introduced Cantor
+embedding.
 
-Similarly, there are many ways to metrize the product topology on sequences, but
-the Cantor embedding offers a direct way to connect the product topology with a
-visualizable geometry, and by embedding in a single dimension enables efficient
-computation of the Wasserstein metric. The benefits of the Cantor and
-Wasserstein approaches adds interpretability to the resulting predictive state
-geometry along two distinct axes, most clearly seen in the clustered Cantor
-diagrams of Fig. \ref{fig:hclust}. 
+Compared to using reproducing kernel Hilbert spaces---a dominant approach to
+predictive states at present
+\cite{Song09a,Song10a,Boot13a,Brod20a,Loom21a}---our combining the Cantor set
+with the Wasserstein distance may appear idiosyncratic. However, as the results
+demonstrated, there are strong benefits to both and together the two methods
+synergize their benefits in a unique way. The topology of convergence in
+distribution can be replicated with both the Wasserstein distance and the RKHS
+inner product. However, the Wasserstein distance depends on far fewer
+parameters---such as, the choice of the eponymous kernel in RKHS approaches.
+Moreover, its value is directly interpretable in terms of the shapes of the
+distributions it compares.
+
+Similarly, there are many ways to metrize the product topology on sequences,
+but the Cantor embedding offers a direct way to connect the product topology
+with a visualizable geometry. And, embedding in a single dimension enables
+efficient computation of the Wasserstein metric. The benefits of the Cantor and
+Wasserstein approaches adds interpretability to the resulting predictive-state
+geometry along two distinct axes, most clearly seen in Fig. \ref{fig:hclust}'s
+clustered Cantor diagrams.
 
 %% The acknowledgments section is defined using the "acks" environment % (and
 %NOT an unnumbered section). This ensures the proper % identification of the
 %section in the article metadata, and the % consistent spelling of the heading.
 \begin{acks}
-  We thank Nicolas Brodu, Adam Rupe, Alex Jurgens, David Gier, and Mikhael
-  Semaan. JPC acknowledges the kind hospitality of the Telluride Science
-  Research Center, Santa Fe Institute, Institute for Advanced Study at the
-  University of Amsterdam, and California Institute of Technology for their
-  hospitality during visits. This material is based upon work supported by, or
-  in part by, Grant Nos. FQXi-RFP-IPW-1902 and FQXi-RFP-1809 from the
-  Foundational Questions Institute and Fetzer Franklin Fund (a donor-advised
-  fund of Silicon Valley Community Foundation) and grants W911NF-18-1-0028 and
-  W911NF-21-1-0048 from the U.S. Army Research Laboratory and the U.S. Army
-  Research Office.  
+We thank Nicolas Brodu, Adam Rupe, Alex Jurgens, David Gier, and Mikhael
+Semaan. JPC acknowledges the kind hospitality of the Telluride Science
+Research Center, Santa Fe Institute, Institute for Advanced Study at the
+University of Amsterdam, and California Institute of Technology for their
+hospitality during visits. This material is based upon work supported by, or
+in part by, Templeton World Charity Foundation Diverse Intelligences grants TWCF0440 and TWCF0570 and Foundational Questions Institute and Fetzer Franklin Fund grant number FQXI-RFP-CPW-2007 and grants W911NF-18-1-0028 and
+W911NF-21-1-0048 from the U.S. Army Research Laboratory and the U.S. Army
+Research Office.  
+
 \end{acks}
 
 \section{Reproducibility statement}
-For the purposes of reproducibility, we have provided a GitHub repository which
-contains the code necessary to generate this paper and its figures, including a
-notebook for generating the data we used for our examples and building both
+For the purposes of reproducibility, we provide a GitHub repository containing
+the code necessary to generate this manuscript and its figures, including a
+notebook for generating the data used for the examples and for building both
 static and interactive figures for further exploration.
 %%
 %% The next two lines define the bibliography style to be used, and % the
