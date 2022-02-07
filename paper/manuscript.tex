@@ -410,10 +410,10 @@ Thus, the embedding $C$ respects the basic structure of the product topology
 Stationary processes, due to their time-translation invariance, inherit the
 fractal temporality of sequence space. This can be easily visualized: Given a
 length-$L$ sample $x_1\dots x_L$, and $n,k>0$, take a sliding window of pasts
-and futures, $(x_{t-n+1}\dots x_t, x_{t+1}\dots x_k)$ for $t=n,\dots,L-k$.  For
+and futures, $(x_{t-k+1}\dots x_t, x_{t+1}\dots x_n)$ for $t=k,\dots,L-n$.  For
 each past-future pair, compute the truncated Cantor embeddings on the
 \emph{reversed} past and (unreversed) future: $\left(C(x_t \dots
-x_{t-n+1}),C(x_{t+1}\dots x_k)\right)$. The resulting pairs of real numbers can
+x_{t-k+1}),C(x_{t+1}\dots x_n)\right)$. The resulting pairs of real numbers can
 be plotted as $(x,y)$-values on a scatter plot. The fractal that emerges
 contains, in essence, all information necessary to understand a process'
 temporal structures. See Fig. \ref{fig:cantor} for examples and guidance on how
@@ -437,8 +437,8 @@ as to not outweigh the computational benefits of working in one dimension.
   \SetKwFunction{CantorWasserstein}{CantorWasserstein}
   \SetKwInOut{Input}{input}\SetKwInOut{Output}{output}
   
-  \underline{function \CantorWasserstein} ($n,k,x_1\dots x_L$)\;
-  \Input{Integers $n,k$ of past and future lengths} 
+  \underline{function \CantorWasserstein} ($k,n,x_1\dots x_L$)\;
+  \Input{Integers $k,n$ of past and future lengths} 
   \Input{Length-$L$ sequence $x_1\dots x_L$ of observations} 
   \Output{List $\UnqPasts$ of unique pasts}
   \Output{List of lists $\Cantors$ of Cantor-embedded futures} 
@@ -446,11 +446,11 @@ as to not outweigh the computational benefits of working in one dimension.
   $\UnqPasts \leftarrow \left[\right]$\; 
   $\Cantors \leftarrow \left[\right]$\; 
   \For{$t\leftarrow n$ \KwTo $L-k$} { 
-    $\overleftarrow{\mathbf{x}} \leftarrow \left[x_{t-n+1},\dots, x_{t}\right]$\;
-    $\overrightarrow{\mathbf{x}} \leftarrow \left[x_{t+1},\dots, x_{t+k}\right]$\;
+    $\overleftarrow{\mathbf{x}} \leftarrow \left[x_{t-k+1},\dots, x_{t}\right]$\;
+    $\overrightarrow{\mathbf{x}} \leftarrow \left[x_{t+1},\dots, x_{t+n}\right]$\;
       \vspace{-1.5em}
       \begin{flalign*}
-        p &\leftarrow \sum_{\ell=1}^L
+        p &\leftarrow \sum_{\ell=1}^n
         \frac{2J(\overrightarrow{x}_\ell)}{(2|\mathcal{X}|-1)^\ell}\ ; &&
       \end{flalign*}
 
@@ -464,12 +464,12 @@ as to not outweigh the computational benefits of working in one dimension.
   }
   $K \leftarrow \Length(\UnqPasts)$\; 
   $\Wass \leftarrow \Matrix(K,K)$\;
-  \For{$k\leftarrow 1$ \KwTo $K$} { 
-    \For{$\ell\leftarrow 1$ \KwTo $K$} {  
-      $\Wass_{k \ell}
+  \For{$i\leftarrow 1$ \KwTo $K$} { 
+    \For{$j\leftarrow 1$ \KwTo $K$} {  
+      $\Wass_{ij}
         \leftarrow
-        \Wasserstein(\Cantors_k,\Cantors_\ell)$\;
-        $\Wass_{\ell k} \leftarrow \Wass_{k \ell}$\; } } 
+        \Wasserstein(\Cantors_i,\Cantors_j)$\;
+        $\Wass_{j i} \leftarrow \Wass_{i j}$\; } } 
   \KwResult{$\UnqPasts$,$\Cantors$,$\Wass$}
   \caption{Steps for converting a sequence of categorical time-series data
         into a labeled collection of empirical distributions of Cantor-embedded futures,
@@ -708,12 +708,12 @@ Despite this high order of structural complexity, the predictive state geometry
 reconstructed from a sufficiently large sample of the Morse-Thue process
 recovers the neighborhoods of $[0,1]$ that are relevant to the dynamics of the
 original logistic map. Said differently, there is a correspondence between each
-past $x_{-n+1}\dots x_{0}$ and a subset $V_{x_{-n+1}\dots x_{0}}$, such that
-$V_{x_1\dots x_n}$ is the set of all points $y$ for which $x(f^{-t}(y)) =
+past $x_{-k+1}\dots x_{0}$ and a subset $V_{x_{-k+1}\dots x_{0}}$, such that
+$V_{x_{-k+1}\dots x_{0}}$ is the set of all points $y$ for which $x(f^{-t}(y)) =
 x_{-t}$ for $0\leq t < n$. (Here, $f(y) = ry(1-y)$ and $x(y)$ is the encoding
-$y\mapsto \{0,1\}$.) As it happens, pasts $x_{-n+1}\dots x_{0}$ whose predictive
+$y\mapsto \{0,1\}$.) As it happens, pasts $x_{-k+1}\dots x_{0}$ whose predictive
 states are close under the Wasserstein distance are also pasts for which the
-sets $f(V_{x_{-n+1}\dots x_{0}})$ are close. That is, they correspond to
+sets $f(V_{x_{-k+1}\dots x_{0}})$ are close. That is, they correspond to
 predictively similar ranges of the logistic map variable. 
 
 Figure \ref{fig:mds-feig} directly visualizes the relationship between the
@@ -755,13 +755,16 @@ parameters---such as, the choice of the eponymous kernel in RKHS approaches.
 Moreover, its value is directly interpretable in terms of the shapes of the
 distributions it compares.
 
-Similarly, there are many ways to metrize the product topology on sequences,
-but the Cantor embedding offers a direct way to connect the product topology
-with a visualizable geometry. And, embedding in a single dimension enables
-efficient computation of the Wasserstein metric. The benefits of the Cantor and
+Similarly, there are many ways to metrize the product topology on sequences, but
+the Cantor embedding offers a direct way to connect the product topology with a
+visualizable geometry. And, embedding in a single dimension enables efficient
+computation of the Wasserstein metric. The benefits of the Cantor and
 Wasserstein approaches adds interpretability to the resulting predictive-state
 geometry along two distinct axes, most clearly seen in Fig. \ref{fig:hclust}'s
-clustered Cantor diagrams.
+clustered Cantor diagrams. We hope that the success of this approach in
+providing clear insights will complement existing thrusts in the direction of
+abstract embeddings and mathematical formalism by motivating further development
+on interpretable approaches to predictive state analysis.
 
 %% The acknowledgments section is defined using the "acks" environment % (and
 %NOT an unnumbered section). This ensures the proper % identification of the
@@ -779,7 +782,8 @@ Research Office.
 \end{acks}
 
 \section{Reproducibility statement}
-For the purposes of reproducibility, we provide a GitHub repository containing
+For the purposes of reproducibility, we provide a 
+GitHub repository \cite{repo} containing
 the code necessary to generate this manuscript and its figures, including a
 notebook for generating the data used for the examples and for building both
 static and interactive figures for further exploration.
