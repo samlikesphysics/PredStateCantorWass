@@ -1,0 +1,15 @@
+\contentsline {title}{Exploring Predictive States via Cantor Embeddings and Wasserstein Distance }{1}{section*.2}%
+\contentsline {abstract}{Abstract}{1}{section*.1}%
+\tocdepth@munge 
+\contentsline {section}{\numberline {}Contents}{1}{section*.3}%
+\tocdepth@restore 
+\contentsline {section}{\numberline {I}Introduction}{1}{section*.4}%
+\contentsline {section}{\numberline {II}Example processes}{2}{section*.5}%
+\contentsline {section}{\numberline {III}Cantor-embedding sequences}{3}{section*.7}%
+\contentsline {section}{\numberline {IV}Wasserstein distance on predictive states}{3}{section*.9}%
+\contentsline {section}{\numberline {V}Interpretable predictive states with hierarchical clustering}{5}{section*.11}%
+\contentsline {section}{\numberline {VI}Predictive state geometry with multidimensional scaling}{6}{section*.13}%
+\contentsline {section}{\numberline {VII}Concluding remarks}{8}{section*.15}%
+\contentsline {section}{\numberline {}Acknowledgements}{8}{section*.16}%
+\contentsline {section}{\numberline {}Reproducibility statement}{9}{section*.17}%
+\contentsline {section}{\numberline {}References}{9}{section*.18}%

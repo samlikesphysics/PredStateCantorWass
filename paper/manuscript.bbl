@@ -1,0 +1,230 @@
+\begin{thebibliography}{10}
+
+\bibitem{Kall01a}
+O.~Kallenberg.
+\newblock {\em Foundations of Modern Probability}.
+\newblock Springer, New York, 2 edition, 2001.
+
+\bibitem{Shal07a}
+C.~R. Shalizi and A.~Kontorovich.
+\newblock Almost none of the theory of stochastic processes, February 2013.
+\newblock Lecture notes.
+
+\bibitem{Uppe97a}
+D.~R. Upper.
+\newblock {\em Theory and Algorithms for Hidden {M}arkov Models and Generalized
+  Hidden {M}arkov Models}.
+\newblock PhD thesis, University of California, Berkeley, 1997.
+\newblock {P}ublished by University Microfilms Intl, Ann Arbor, Michigan.
+
+\bibitem{Crut88a}
+J.~P. Crutchfield and K.~Young.
+\newblock Inferring statistical complexity.
+\newblock {\em Phys. Rev. Let.}, 63:105--108, 1989.
+
+\bibitem{Jaeg00a}
+H.~Jaeger.
+\newblock Observable operator models for discrete stochastic time series.
+\newblock {\em Neural Computation}, 12(6):1371--1398, 2000.
+
+\bibitem{Crut92c}
+J.~P. Crutchfield.
+\newblock The calculi of emergence: Computation, dynamics, and induction.
+\newblock {\em Physica D}, 75:11--54, 1994.
+
+\bibitem{Emen16a}
+J.~Emenheiser, A.~Chapman, M.~Posfai, J.~P. Crutchfield, M.~Mesbahi, and R.~M.
+  D'Souza.
+\newblock Patterns of patterns of synchronization: {Noise} induced attractor
+  switching in rings of coupled nonlinear oscillators.
+\newblock {\em Chaos}, 26(9):094816, 2016.
+
+\bibitem{Salo19a}
+A.~Salova, J.~Emenheiser, J.~P. Crutchfield, and R.~M. D'Souza.
+\newblock Koopman operator and its approximations for systems with symmetries.
+\newblock {\em Chaos}, 29:093128, 2019.
+
+\bibitem{Marz14e}
+S.~Marzen, M.~R. DeWeese, and J.~P. Crutchfield.
+\newblock Time resolution dependence of information measures for spiking
+  neurons: {Scaling} and universality.
+\newblock {\em Front. Comput. Neurosci.}, 9:109, 2015.
+
+\bibitem{Marz15a}
+S.~Marzen and J.~P. Crutchfield.
+\newblock Statistical signatures of structural organization: {The} case of long
+  memory in renewal processes.
+\newblock {\em Phys. Lett. A}, 380(17):1517--1525, 2016.
+
+\bibitem{Varn12a}
+D.~P. Varn, G.~S. Canright, and J.~P. Crutchfield.
+\newblock $\epsilon$-machine spectral reconstruction theory: {A} direct method
+  for inferring planar disorder and structure from {X}-ray diffraction studies.
+\newblock {\em Acta. Cryst. Sec. A}, 69(2):197--206, 2013.
+
+\bibitem{Varn14a}
+D.~P. Varn and J.~P. Crutchfield.
+\newblock Chaotic crystallography: {How} the physics of information reveals
+  structural order in materials.
+\newblock {\em Curr. Opin. Chem. Eng.}, 7:47--56, 2015.
+
+\bibitem{Rupe19a}
+A.~Rupe, K.~Kashinath, N.~Kumar, V.~Lee, Prabhat, and J.~P. Crutchfield.
+\newblock Towards unsupervised segmentation of extreme weather events.
+\newblock {\em arxiv:1909.07520}.
+
+\bibitem{Rupe19b}
+A.~Rupe, N.~Kumar, V.~Epifanov, K.~Kashinath, O.~Pavlyk, F.~Schimbach,
+  M.~Patwary, S.~Maidanov, V.~Lee, Prabhat, and J.~P. Crutchfield.
+\newblock Disco: Physics-based unsupervised discovery of coherent structures in
+  spatiotemporal systems.
+\newblock In {\em 2019 IEEE/ACM Workshop on Machine Learning in High
+  Performance Computing Environments (MLHPC)}, pages 75--87, 2019.
+
+\bibitem{Rupe20a}
+A.~Rupe and J.~P. Crutchfield.
+\newblock Spacetime autoencoders using local causal states.
+\newblock {\em AAAI Fall Series 2020 Symposium on Physics-guided AI for
+  Accelerating Scientific Discovery}, 2020.
+\newblock arXiv:2010.05451.
+
+\bibitem{Shal02a}
+C.~R. Shalizi, K.~L. Shalizi, and J.~P. Crutchfield.
+\newblock Pattern discovery in time series, {Part} {I}: Theory, algorithm,
+  analysis, and convergence.
+\newblock {\em arXiv.org/abs/cs.LG/0210025}.
+
+\bibitem{Jame04a}
+L.~Song, B.~Boots, S.~Siddiqi, G.~Gordon, and A.~Smola.
+\newblock Learning and discovery of predictive state representations in
+  dynamical systems with reset.
+\newblock In {\em Proceedings of the Twenty-first International Conference on
+  Machine Learning}, page~53. ACM, 2004.
+
+\bibitem{Stil07b}
+S.~Still, J.~P. Crutchfield, and C.~J. Ellison.
+\newblock Optimal causal inference: {Estimating} stored information and
+  approximating causal architecture.
+\newblock {\em CHAOS}, 20(3):037111, 2010.
+
+\bibitem{Stre13a}
+C.~C. Strelioff and J.~P. Crutchfield.
+\newblock Bayesian structural inference for hidden processes.
+\newblock {\em Phys. Rev. E}, 89:042119, 2014.
+
+\bibitem{Thon15a}
+M.~Thon and H.~Jaeger.
+\newblock Links between multiplicity automata, observable operator models and
+  predictive state representations -- a unified learning framework.
+\newblock {\em J. Mach. Learn. Res.}, 16:103--147, 2015.
+
+\bibitem{Marz19a}
+S.~E. Marzen and J.~P. Crutchfield.
+\newblock Probabilistic deterministic finite automata and recurrent networks,
+  revisited.
+\newblock 2019.
+\newblock arxiv.org:1910.07663 [cs.LG].
+
+\bibitem{Brod20a}
+N.~Brodu and J.~P. Crutchfield.
+\newblock Discovering causal structure with reproducing-kernel hilbert space
+  $\epsilon$-machines.
+\newblock {\em Chaos}, 32:023103, 2022.
+
+\bibitem{Loom21a}
+S.~P. Loomis and J.~P. Crutchfield.
+\newblock Topology, convergence, and reconstruction of predictive states.
+\newblock 2021.
+\newblock arXiv:2109.09203.
+
+\bibitem{Shal98a}
+C.~R. Shalizi and J.~P. Crutchfield.
+\newblock Computational mechanics: Pattern and prediction, structure and
+  simplicity.
+\newblock {\em J. Stat. Phys.}, 104:817--879, 2001.
+
+\bibitem{Song09a}
+L.~Song, J.~Huang, A.~Smola, and K.~Fukumizu.
+\newblock Hilbert space embeddings of conditional distributions with
+  applications to dynamical systems.
+\newblock In {\em Proceedings of the 26th International Conference on Machine
+  Learning}, page 961–968. ACM, 2009.
+
+\bibitem{Song10a}
+L.~Song, B.~Boots, S.~Siddiqi, G.~Gordon, and A.~Smola.
+\newblock Hilbert space embeddings of hidden markov models.
+\newblock In {\em Proceedings of the 27th International Conference on Machine
+  Learning}, pages 991--998. Omnipress, 2010.
+
+\bibitem{Boot13a}
+B.~Boots, A.~Gretton, and G.~Gordon.
+\newblock Hilbert space embeddings of predictive state representations.
+\newblock In {\em Proceedings of the 29th International Conference on
+  Uncertainty in Artificial Intelligence}, pages 92--101, 2013.
+
+\bibitem{Srip10a}
+B.~Sriperembudur, A.~Gretton, K.~Fukumizu, B.~Sch{\"o}lkopf, and G.~R.~G.
+  Lanckriet.
+\newblock Hilbert space embeddings and metrics on probability measures.
+\newblock {\em J. Machine Learn. Res.}, 11:1517--1561, 2010.
+
+\bibitem{Tuke62a}
+J.~W. Tukey.
+\newblock The future of data analysis.
+\newblock {\em Ann. Math. Stat.}, 33, 1962.
+
+\bibitem{Tuke77a}
+J.~W. Tukey.
+\newblock {\em Exploratory Data Analysis}.
+\newblock Addison-Wesley, Reading, Massachusetts, 1977.
+
+\bibitem{Kurk03a}
+P.~K{\r{u}}rka.
+\newblock {\em Topological and Symbolic Dynamics}.
+\newblock Soci{\'e}t{\'e} Math{\'e}matique de France, Paris, 2003.
+
+\bibitem{Pane19a}
+V.~M. Panaretos and Y.~Zemel.
+\newblock Statistical aspects of wasserstein distances.
+\newblock {\em Annu. Rev. Stat. Appl.}, 6:405--431, 2019.
+
+\bibitem{Borg05a}
+I.~Borg and P.~J.~F. Groenen.
+\newblock {\em Modern Multidimensional Scaling: Theory and Applications}.
+\newblock Springer Series in Statistics. Springer, New York, NY, second
+  edition, 2005.
+
+\bibitem{Mull11a}
+D.~M{\"u}llner.
+\newblock Modern hierarchical, agglomerative clustering algorithms.
+\newblock 2011.
+\newblock 1109.2378v1.
+
+\bibitem{Gema00a}
+S.~Geman and M.~Johnson.
+\newblock Probabilistic grammars and their applications.
+\newblock In {\em In International Encyclopedia of the Social \& Behavioral
+  Sciences. N.J. Smelser and P.B}, pages 12075--12082, 2000.
+
+\bibitem{Crut01a}
+J.~P. Crutchfield and D.~P. Feldman.
+\newblock Regularities unseen, randomness observed: Levels of entropy
+  convergence.
+\newblock {\em CHAOS}, 13(1):25--54, 2003.
+
+\bibitem{Hopc06a}
+J.~E. Hopcroft, R.~Motwani, and J.~D. Ullman.
+\newblock {\em Introduction to Automata Theory, Languages, and Computation}.
+\newblock Prentice-Hall, New York, third edition, 2006.
+
+\bibitem{Thas10a}
+O.~Thas.
+\newblock {\em Comparing Distributions}.
+\newblock Springer Series in Statistics. Springer, New York, NY, 2010.
+
+\bibitem{repo}
+Predictive state geometry via cantor embeddings and wasserstein distance.
+\newblock \url{https://anonymous.4open.science/r/PredStateCantorWass-8577/},
+  2022.
+
+\end{thebibliography}

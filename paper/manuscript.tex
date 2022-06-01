@@ -27,26 +27,11 @@
 %%
 %%
 %% The first command in your LaTeX source must be the \documentclass command.
-\documentclass[sigconf, anonymous, review]{acmart}
+\documentclass[draft,aps,pre,twocolumn,groupaddress,showkeys,nofootinbib,preprintnumbers,floatfix]{revtex4-2}
 \usepackage{probs}
+\usepackage{dynlearn}
 \usepackage[linesnumbered,ruled]{algorithm2e}
 \mathchardef\mhyphen="2D
-%%
-%% \BibTeX command to typeset BibTeX logo in the docs
-\AtBeginDocument{%
-  \providecommand\BibTeX{{%
-    \normalfont B\kern-0.5em{\scshape i\kern-0.25em b}\kern-0.8em\TeX}}}
-
-%% Rights management information.  This information is sent to you % when you
-%complete the rights form.  These commands have SAMPLE % values in them; it is
-%your responsibility as an author to replace % the commands and values with
-%those provided to you when you % complete the rights form.
-\setcopyright{acmcopyright}
-\copyrightyear{2022}
-\acmYear{2022}
-%\acmDOI{10.1145/1122445.1122456}
-\acmConference[KDD'22]{the 28th ACM SIGKDD Conference on Knowledge Discovery and
-Data Mining}{August 2022}{Washington, DC, USA}
 
 %% These commands are for a PROCEEDINGS abstract or paper.
 %\acmConference[Woodstock '18]{Woodstock '18: ACM Symposium on Neural Gaze
@@ -73,132 +58,90 @@ Data Mining}{August 2022}{Washington, DC, USA}
 %% end of the preamble, start of the body of the document source.
 \begin{document}
 
-%%
-%% The "title" command has an optional parameter, % allowing the author to
-%define a "short title" to be used in page headers.
-\title{Predictive State Geometry via Cantor Embeddings and Wasserstein Distance}
-%%
-%% The "author" command and its associated commands are used to define % the
-%authors and their affiliations. % Of note is the shared affiliation of the
-%first two authors, and the % "authornote" and "authornotemark" commands % used
-%to denote shared contribution to the research.
+\def\ourTitle{%
+%  Analytical and statistical properties
+%  of predictive states
+Exploring Predictive States via Cantor Embeddings and Wasserstein Distance
+}
+
+\def\ourAbstract{%
+Predictive states for stochastic processes are a nonparametric and interpretable
+construct with relevance across a multitude of modeling paradigms. Recent
+progress on the self-supervised reconstruction of predictive states from
+time-series data focused on the use of reproducing kernel Hilbert spaces. Here,
+we examine how Wasserstein distances may be used to detect predictive
+equivalences in symbolic data. We compute Wasserstein distances between
+distributions over sequences (``predictions''), using a finite-dimensional
+embedding of sequences based on the Cantor for the underlying geometry. We show
+that exploratory data analysis using the resulting geometry via hierarchical
+clustering and dimension reduction provides insight into the temporal structure
+of processes ranging from the relatively simple (\emph{e.g.}, finite-state
+hidden Markov models) to the very complex (\emph{e.g.}, infinite-state indexed
+grammars).
+}
+
+\def\ourKeywords{%
+time series, predictive states, Wasserstein distance, hierarchical clustering
+}
+
+\hypersetup{
+  pdfauthor={Samuel Loomis},
+  pdftitle={\ourTitle},
+  pdfsubject={\ourAbstract},
+  pdfkeywords={\ourKeywords},
+  pdfproducer={},
+  pdfcreator={}
+}
+
 \author{Samuel P. Loomis}
 \email{sloomis@ucdavis.edu}
-\orcid{0000-0003-1587-9874}
 
 \author{James P. Crutchfield}
 \email{chaos@ucdavis.edu}
-\orcid{0000-0003-4466-5410}
-\affiliation{%
-  \institution{Complexity Sciences Center and Physics Department, \\University of California at Davis}
-  \streetaddress{One Shields Ave.}
-  \city{Davis}
-  \state{CA}
-  \country{USA}
-  \postcode{95616}
-}
+\affiliation{Complexity Sciences Center and Department of Physics and Astronomy,
+University of California at Davis, One Shields Avenue, Davis, CA 95616}
 
-%%
-%% By default, the full list of authors will be used in the page % headers.
-%Often, this list is too long, and will overlap % other information printed in
-%the page headers. This command allows % the author to define a more concise
-%list % of authors' names for this purpose.
-\renewcommand{\shortauthors}{Loomis and Crutchfield}
+\date{\today}
+\bibliographystyle{unsrt}
 
-%%
-%% The abstract is a short summary of the work to be presented in the % article.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\title{\ourTitle}
+
 \begin{abstract}
-  Predictive states for stochastic processes are a nonparametric and
-  interpretable construct with relevance across a multitude of modeling
-  paradigms. Recent progress on the self-supervised reconstruction of predictive
-  states from time-series data focused on the use of reproducing kernel
-  Hilbert spaces. Here, we examine how Wasserstein distances may be used to
-  detect predictive equivalences in symbolic data. We construct a
-  finite-dimensional embedding of sequences based on the Cantor set and use
-  distances in this embedding to compute Wasserstein distances between
-  distributions over sequences (``predictions''). We show that analyzing the
-  resulting geometry via hierarchical clustering and dimension reduction
-  provides insight into the temporal structure of processes ranging from the
-  relatively simple (\emph{e.g.}, finite-state hidden Markov models) to the
-  very complex (\emph{e.g.}, infinite-state indexed grammars).
+\ourAbstract
 \end{abstract}
 
-%%
-%% The code below is generated by the tool at http://dl.acm.org/ccs.cfm. %
-%Please copy and paste the code instead of the example below.
-%%
-\begin{CCSXML}
-  <ccs2012>
-  <concept>
-  <concept_id>10002950.10003648.10003649</concept_id>
-  <concept_desc>Mathematics of computing~Probabilistic representations</concept_desc>
-  <concept_significance>500</concept_significance>
-  </concept>
-  <concept>
-  <concept_id>10002950.10003648.10003649.10003657</concept_id>
-  <concept_desc>Mathematics of computing~Nonparametric representations</concept_desc>
-  <concept_significance>500</concept_significance>
-  </concept>
-  <concept>
-  <concept_id>10002950.10003648.10003700.10003701</concept_id>
-  <concept_desc>Mathematics of computing~Markov processes</concept_desc>
-  <concept_significance>500</concept_significance>
-  </concept>
-  <concept>
-  <concept_id>10002950.10003648.10003700</concept_id>
-  <concept_desc>Mathematics of computing~Stochastic processes</concept_desc>
-  <concept_significance>500</concept_significance>
-  </concept>
-  <concept>
-  <concept_id>10002950.10003648.10003688.10003693</concept_id>
-  <concept_desc>Mathematics of computing~Time series analysis</concept_desc>
-  <concept_significance>500</concept_significance>
-  </concept>
-  <concept>
-  <concept_id>10002950.10003741.10003742</concept_id>
-  <concept_desc>Mathematics of computing~Topology</concept_desc>
-  <concept_significance>300</concept_significance>
-  </concept>
-  <concept>
-  <concept_id>10002950.10003712</concept_id>
-  <concept_desc>Mathematics of computing~Information theory</concept_desc>
-  <concept_significance>300</concept_significance>
-  </concept>
-  <concept>
-  <concept_id>10003752.10003766</concept_id>
-  <concept_desc>Theory of computation~Formal languages and automata theory</concept_desc>
-  <concept_significance>300</concept_significance>
-  </concept>
-  <concept>
-  <concept_id>10003752.10003766.10003771</concept_id>
-  <concept_desc>Theory of computation~Grammars and context-free languages</concept_desc>
-  <concept_significance>300</concept_significance>
-  </concept>
-  </ccs2012>
-\end{CCSXML}
+\keywords{\ourKeywords}
 
-\ccsdesc[500]{Mathematics of computing~Probabilistic representations}
-\ccsdesc[500]{Mathematics of computing~Nonparametric representations}
-\ccsdesc[500]{Mathematics of computing~Stochastic processes}
-\ccsdesc[500]{Mathematics of computing~Time series analysis}
-\ccsdesc[300]{Mathematics of computing~Markov processes}
-\ccsdesc[300]{Mathematics of computing~Topology}
-\ccsdesc[300]{Mathematics of computing~Information theory}
-\ccsdesc[300]{Theory of computation~Formal languages and automata theory}
-\ccsdesc[300]{Theory of computation~Grammars and context-free languages}
-    
-%%
-%% Keywords. The author(s) should pick words that accurately describe % the work
-%being presented. Separate the keywords with commas.
-\keywords{time series, predictive states, Cantor set, Wasserstein distance, hierarchical clustering}
+% \pacs{
+% 05.45.-a  %  Nonlinear dynamics and nonlinear dynamical systems
+% 89.75.Kd  %  Complex Systems: Patterns
+% 89.70.+c  %  Information science
+% 05.45.Tp  %  Time series analysis
+% 02.50.Ey  %  Stochastic processes
+% 02.50.-r  %  Probability theory, stochastic processes, and statistics
+% 02.50.Ga  %  Markov processes
+% 05.20.-y  %  Classical statistical mechanics
+% }
 
-%% A "teaser" image appears between the author and affiliation % information and
-%the body of the document, and typically spans the % page.
+\preprint{\arxiv{2108.XXXXX}}
 
-%%
-%% This command processes the author and affiliation and title % information and
-%builds the first part of the formatted document.
+\date{\today}
 \maketitle
+
+\tableofcontents
+% Clears up font spacing/overlap in ToC
+% with sufficient repetitions of formating (e.g., pdflatex).
+% Other front matter packages can alter formating constants.
+\makeatletter
+\let\toc@pre\relax
+\let\toc@post\relax
+\makeatother
+
+\setstretch{1.1}
+
+\listoffixmes
 
 \section{Introduction}
 Suppose that we have a finite sequence $x_1 \dots x_L$ of categorical
@@ -244,14 +187,15 @@ systems \cite{Crut92c,Emen16a,Salo19a}, renewal processes and spike-trains
 \cite{Marz14e,Marz15a}, condensed matter physics \cite{Varn12a,Varn14a}, and
 spatiotemporal systems \cite{Rupe19a,Rupe19b,Rupe20a}. A deep mathematical
 theory of predictive-state inference has been correspondingly developed
-\cite{Jaeg00a,Shal02a,Jame04a,Stil07b,Stre13a,Thon15a,Marz19a,Brod20a}. Despite
-this, universal conditions for predictive-state convergence were not given until
-recently. It is now known that if the dataset $x_1 \dots x_L$ is drawn from any
+\cite{Uppe97a,Jaeg00a,Shal02a,Jame04a,Stil07b,Stre13a,Thon15a,Marz19a,Brod20a}.
+If the dataset $x_1 \dots x_L$ is drawn from any
 stationary process and if $L$ is sufficiently large, then Eq.
 \eqref{eq:convergence} converges for any $n$ and a probability-$1$ subset of
-pasts $\overleftarrow{x}$ \cite{Loom21a}. In the language of measures,
+pasts $\overleftarrow{x}$ \cite{Uppe97a}. Recently, this result has been further
+clarified: in the language of measures,
 $P_{\overleftarrow{x}}$ converges \emph{in distribution}, with respect to the
-\emph{product topology} of the space of sequences $\mathcal{X}^\mathbb{N}$.
+\emph{product topology} of the space of sequences $\mathcal{X}^\mathbb{N}$
+\cite{Loom21a}.
 
 The broad goals of predictive-state analysis are threefold \cite{Shal98a}. The
 first is to understand the overall structure of how the predictive states
@@ -259,17 +203,19 @@ relate to one another geometrically and, possibly, use this geometry to
 classify pasts based on equivalence of their predictive states. The second is
 to actually reproduce the prediction to a specified accuracy. The third is to
 understand the dynamics of how predictions evolve under a stream of new
-observations. The following focuses on the first, as it is a crucial building
-block to achieving the other two.
+observations. 
 
-Recent attempts to reconstruct the geometry of predictive states embedded them
+The following focuses on the first, as it is a crucial building
+block to achieving the other two. Recent attempts to reconstruct the geometry of predictive states embedded them
 in reproducing kernel Hilbert spaces
 \cite{Song09a,Song10a,Boot13a,Brod20a,Loom21a}. This was achieved to great
 effect largely since convergence in Hilbert spaces generated by universal
 kernels is equivalent to convergence in distribution \cite{Srip10a}. That is,
 these embeddings allow accurate representations of predictive states because
 they respect the product topology of sequences in the same way that predictive
-states themselves do. 
+states themselves do \cite{Loom21a}. In this paper, we will seek to achieve the same results,
+using a procedure which can be easily visualized and interpreted, making it
+suitable as a method for exploratory data analysis \cite{Tuke62a,Tuke77a}.
 
 Understanding the source of the power of RKHS methods in predictive-state
 analysis frees us to consider other options. The following embeds
@@ -312,7 +258,8 @@ We refer back frequently to the following example processes:
 	and writing down a $0$ for every tail and $11$ for every head. The process
 	is essentially random except that $1$s only appear in contiguous blocks of
 	even size bounded by $0$s. The even process has infinite Markov order but
-	can be generated by a two-state hidden Markov chain \cite{Crut01a}.
+	can be generated by a two-state hidden Markov chain \cite{Crut01a}. A typical
+	example might look like $01100111101100011$.
 \item The $a^n b^n$ \emph{process} can be generated by choosing a random
 	integer $n\geq 1$ (we suppose via a Poisson process) and writing $n$
 	$\mathtt{a}$'s followed by an equal number of $\mathtt{b}$'s, and then
@@ -320,7 +267,8 @@ We refer back frequently to the following example processes:
 	contiguous block of $\mathtt{a}$s is followed by a block of $\mathtt{b}$s
 	of equal size. The $\mathtt{a}^n \mathtt{b}^n$ process cannot be generated
 	by any finite hidden Markov chain, though it is a simple example of a
-	probabilistic context-free language \cite{Hopc06a}.
+	probabilistic context-free language \cite{Hopc06a}. A typical example might
+	look like $\mathtt{abaaabbbabaabb}$.
 \item The $x+f(x)$ \emph{process} is a probabilistic context-free language
 	modeling the syntactic structure of simple mathematical expressions. It has
 	terminal symbols $\{\mathtt{(}\ ,\ \mathtt{)}\ ,\ \mathtt{;}\ ,\
@@ -333,10 +281,13 @@ We refer back frequently to the following example processes:
     C &\mapsto \mathtt{f(}B\mathtt{)}\ |\ \mathtt{x}
   ~.
 \end{align*}
+A typical example might
+	look like $\mathtt{x+x;f(x+f(x));f(f(x));}$.
 \item The $a^n b^n c^n$ \emph{process} is a probabilistic indexed language
 	\cite{Hopc06a} that is analogous to $\mathtt{a}^n \mathtt{b}^n$ except
 	after writing the blocks of $\mathtt{a}$'s and $\mathtt{b}$'s, we also
-	write a block of $\mathtt{c}$'s of length $n$.
+	write a block of $\mathtt{c}$'s of length $n$. A typical example might
+	look like $\mathtt{abcaaabbbcccabcaabbcc}$.
 \item The \emph{Morse-Thue process} is generated by sampling from the time
 	series of the logistic map at critical ``onset of chaos'' parameter
 	$r_c \approx 3.56995$:
@@ -348,10 +299,12 @@ We refer back frequently to the following example processes:
 	Alternatively, we can generate this process by starting with a single $0$
 	and executing the replacements $0 \mapsto 11$ and $1 \mapsto 01$
 	consecutively. The resulting process is an indexed-context free language
-	\cite{Crut92c}.
+	\cite{Crut92c}. A typical example might look like
+	$11011101010111011101110101011101$ (this is the fifth generation of the
+	replacement rule starting from $0$).
 \end{enumerate}
 
-\begin{figure*}[h]
+\begin{figure*}[ht]
 \centering
 \includegraphics[width=0.4\linewidth]{../plots/even_CANTOR.png}
 \includegraphics[width=0.4\linewidth]{../plots/anbn_CANTOR.png}
@@ -369,10 +322,6 @@ We refer back frequently to the following example processes:
 	paired with a future beginning in $\mathtt{(f}$ or $\mathtt{(x}$.
 	}
 \label{fig:cantor}
-\Description{Four fractals are displayed, respectively labeled as the even,
-	$\mathtt{a}^n\mathtt{b}^n$, $\mathtt{a}^n\mathtt{b}^n\mathtt{c}^n$, and
-	$\mathtt{x+f(x)}$ processes.
-	}
 \end{figure*}
 
 \section{Cantor-embedding sequences}
@@ -428,7 +377,6 @@ embeddings that do not have this. However, they come at the cost of increased
 computational complexity when determining the Wasserstein distance. So, for now,
 we assume that ordinal artifacts are either desired or sufficiently tolerable
 as to not outweigh the computational benefits of working in one dimension.
-
 \begin{algorithm}[t]
   \SetKwData{UnqPasts}{UnqPasts}\SetKwData{Cantors}{Cantors}\SetKwData{Wass}{Wass}
   \SetKwFunction{Wasserstein}{Wasserstein}\SetKwFunction{Append}{append}
@@ -569,11 +517,6 @@ The next two sections examine the results of this approach.
 	of Fig. \ref{fig:cantor}.
 	}
 \label{fig:hclust}
-\Description{Four graphs are displayed. Each vertical axis has a list of
-	symbolic sequences organized by a hierarchical clustering tree. The
-	horizontal axis is a list of individual symbols. The content of each graph
-	is rows of fractal-distributed lines.
-	}
 \end{figure*}
 
 \section{Interpretable predictive states with hierarchical clustering}
@@ -630,9 +573,6 @@ forecasts associated with each cluster of predictions.
 	the pattern that uniquely characterizes the pasts in that cluster.
 	}
 \label{fig:mds}
-\Description{Two scatter plots with colored clusters of points are displayed,
-	with labels next to each cluster describing symbolic patterns.
-	}
 \end{figure*}
 
 \section{Predictive state geometry with multidimensional scaling}
@@ -669,7 +609,7 @@ $\mathtt{b}$'s are observed the top symbol is popped off the stack, and the
 predictive states move back towards the lower left. The latter represents
 equality between $\mathtt{a}$s and $\mathtt{b}$s.
 
-\begin{figure*}[h]
+\begin{figure*}[ht]
 \centering
 \includegraphics[width=\linewidth]{../plots/feig_MDS.pdf}
 \caption{(Left) Scatterplot of the first two MDS coordinates of the
@@ -682,13 +622,6 @@ equality between $\mathtt{a}$s and $\mathtt{b}$s.
 	dynamically similar neighborhoods of the logistic map domain.
 	}
 \label{fig:mds-feig}
-\Description{A rectangular scatter plot of color-coded points is displayed on
-	the left, and on the right a square scatterplot of parabolically arranged
-	points with a diagonal line cutting through them. In the right plot the
-	points are colored with the same scheme as the left, and similarly colored
-	arrows point from clusters to the diagonal line or from the diagonal line
-	to the next cluster.
-	}
 \end{figure*}
 
 The geometric approach is particularly insightful when computing the
@@ -769,7 +702,7 @@ on interpretable approaches to predictive state analysis.
 %% The acknowledgments section is defined using the "acks" environment % (and
 %NOT an unnumbered section). This ensures the proper % identification of the
 %section in the article metadata, and the % consistent spelling of the heading.
-\begin{acks}
+\section*{Acknowledgements}
 We thank Nicolas Brodu, Adam Rupe, Alex Jurgens, David Gier, and Mikhael
 Semaan. JPC acknowledges the kind hospitality of the Telluride Science
 Research Center, Santa Fe Institute, Institute for Advanced Study at the
@@ -779,9 +712,7 @@ in part by, Templeton World Charity Foundation Diverse Intelligences grants TWCF
 W911NF-21-1-0048 from the U.S. Army Research Laboratory and the U.S. Army
 Research Office.  
 
-\end{acks}
-
-\section{Reproducibility statement}
+\section*{Reproducibility statement}
 For the purposes of reproducibility, we provide a 
 GitHub repository \cite{repo} containing
 the code necessary to generate this manuscript and its figures, including a
@@ -790,7 +721,6 @@ static and interactive figures for further exploration.
 %%
 %% The next two lines define the bibliography style to be used, and % the
 %bibliography file.
-\bibliographystyle{ACM-Reference-Format}
 \bibliography{ref}
 
 %%
