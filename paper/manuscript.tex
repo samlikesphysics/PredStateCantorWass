@@ -1,32 +1,14 @@
-%%
-%% This is file `sample-lualatex.tex', % generated with the docstrip utility.
-%%
-%% The original source files were:
-%%
-%% samples.dtx  (with options: `sigconf')
-%% 
-%% IMPORTANT NOTICE:
-%% 
-%% For the copyright see the source file.
-%% 
-%% Any modified versions of this file must be renamed % with new filenames
-%distinct from sample-lualatex.tex.
-%% 
-%% For distribution of the original source see the terms % for copying and
-%modification in the file samples.dtx.
-%% 
-%% This generated file may be distributed as long as the % original source
-%files, as listed above, are part of the % same distribution. (The sources need
-%not necessarily be % in the same archive or directory.)
-%%
-%%
+% Exploring Predictive States via Cantor Embeddings and Wasserstein Distance
+%
+% spl: 6/2/22
+% jpc: 6/5/22
+
 %% Commands for TeXCount TC:macro \cite [option:text,text] TC:macro \citep
 %[option:text,text] TC:macro \citet [option:text,text] TC:envir table 0 1
 %TC:envir table* 0 1 TC:envir tabular [ignore] word TC:envir displaymath 0 word
 %TC:envir math 0 word TC:envir comment 0 0
 %%
-%%
-%% The first command in your LaTeX source must be the \documentclass command.
+
 \documentclass[draft,aps,pre,twocolumn,groupaddress,showkeys,nofootinbib,preprintnumbers,floatfix]{revtex4-2}
 \usepackage{probs}
 \usepackage{dynlearn}
@@ -125,12 +107,12 @@ University of California at Davis, One Shields Avenue, Davis, CA 95616}
 % 05.20.-y  %  Classical statistical mechanics
 % }
 
-\preprint{\arxiv{2108.XXXXX}}
+\preprint{\arxiv{2206.XXXXX}}
 
 \date{\today}
 \maketitle
 
-\tableofcontents
+% \tableofcontents
 % Clears up font spacing/overlap in ToC
 % with sufficient repetitions of formating (e.g., pdflatex).
 % Other front matter packages can alter formating constants.
@@ -147,7 +129,7 @@ University of California at Davis, One Shields Avenue, Davis, CA 95616}
 Suppose that we have a finite sequence $x_1 \dots x_L$ of categorical
 observations drawn from a temporal process. We may suppose that the process is
 stationary (time-translation invariant) and ergodic (explores
-all possible behaviors) \cite{Kall01a,Shal07a}. We may wish to forecast from the
+all possible behaviors) \cite{Fell70a,Kall01a}. We may wish to forecast from the
 observed information the behavior of the next $n$ observations. If we suspect
 that the process' temporal correlations do not matter much beyond $k$ symbols,
 then we take our data to be all subsequences of length $n+k$,
@@ -182,17 +164,16 @@ forecast lengths $n$ together describe a \emph{probability measure} over future
 sequences $\overrightarrow{x} = (x_1,x_2,\dots)$; the predictive state is this
 measure. We denote it simply $P_{\overleftarrow{x}}$.
 
-Predictive states are employed for inference and modeling in dynamical
-systems \cite{Crut92c,Emen16a,Salo19a}, renewal processes and spike-trains
-\cite{Marz14e,Marz15a}, condensed matter physics \cite{Varn12a,Varn14a}, and
-spatiotemporal systems \cite{Rupe19a,Rupe19b,Rupe20a}. A deep mathematical
+Predictive states are employed for inference and modeling in dynamical systems
+\cite{Crut92c}, renewal processes and neural spike-trains
+\cite{Marz14e,Marz15a}, condensed matter physics \cite{Varn14a}, and
+spatiotemporal systems \cite{Rupe19b}. A deep mathematical
 theory of predictive-state inference has been correspondingly developed
-\cite{Uppe97a,Jaeg00a,Shal02a,Jame04a,Stil07b,Stre13a,Thon15a,Marz19a,Brod20a}.
-If the dataset $x_1 \dots x_L$ is drawn from any
-stationary process and if $L$ is sufficiently large, then Eq.
-\eqref{eq:convergence} converges for any $n$ and a probability-$1$ subset of
-pasts $\overleftarrow{x}$ \cite{Uppe97a}. Recently, this result has been further
-clarified: in the language of measures,
+\cite{Uppe97a,Jaeg00a,Shal02a,Jame04a,Stil07b,Stre13a,Thon15a,Brod20a}.
+If the dataset $x_1 \dots x_L$ is drawn from any stationary process and if $L$
+is sufficiently large, then Eq. \eqref{eq:convergence} converges for any $n$
+and a probability-$1$ subset of pasts $\overleftarrow{x}$ \cite{Uppe97a}.
+Recently, this result has been further clarified: in the language of measures,
 $P_{\overleftarrow{x}}$ converges \emph{in distribution}, with respect to the
 \emph{product topology} of the space of sequences $\mathcal{X}^\mathbb{N}$
 \cite{Loom21a}.
@@ -205,17 +186,18 @@ to actually reproduce the prediction to a specified accuracy. The third is to
 understand the dynamics of how predictions evolve under a stream of new
 observations. 
 
-The following focuses on the first, as it is a crucial building
-block to achieving the other two. Recent attempts to reconstruct the geometry of predictive states embedded them
-in reproducing kernel Hilbert spaces
+The following focuses on the first, as it is a crucial building block to
+achieving the other two. Recent attempts to reconstruct the geometry of
+predictive states embedded them in reproducing kernel Hilbert spaces
 \cite{Song09a,Song10a,Boot13a,Brod20a,Loom21a}. This was achieved to great
 effect largely since convergence in Hilbert spaces generated by universal
 kernels is equivalent to convergence in distribution \cite{Srip10a}. That is,
 these embeddings allow accurate representations of predictive states because
 they respect the product topology of sequences in the same way that predictive
-states themselves do \cite{Loom21a}. In this paper, we will seek to achieve the same results,
-using a procedure which can be easily visualized and interpreted, making it
-suitable as a method for exploratory data analysis \cite{Tuke62a,Tuke77a}.
+states themselves do \cite{Loom21a}. Here, we achieve the same results using a
+procedure that can be easily visualized and interpreted. This makes it suitable
+as a method for exploratory data analysis \cite{Tuke62a,Tuke77a}, while moving
+further toward interpretable machine learning of structured processes.
 
 Understanding the source of the power of RKHS methods in predictive-state
 analysis frees us to consider other options. The following embeds
@@ -252,23 +234,27 @@ indexed grammars \cite{Gema00a}. Additionally, coarse-grained data from chaotic
 dynamical systems---such as the \emph{logistic map}---display behavior varying
 widely in complexity \cite{Crut92c}.
 
-We refer back frequently to the following example processes:
+We refer back frequently to the following example processes of increasing
+computational complexity:
 \begin{enumerate}
+      \setlength{\topsep}{-2pt}
+      \setlength{\itemsep}{-2pt}
+      \setlength{\parsep}{-2pt}
 \item The \emph{even process} can be generated by repeatedly tossing a coin
 	and writing down a $0$ for every tail and $11$ for every head. The process
 	is essentially random except that $1$s only appear in contiguous blocks of
 	even size bounded by $0$s. The even process has infinite Markov order but
-	can be generated by a two-state hidden Markov chain \cite{Crut01a}. A typical
-	example might look like $01100111101100011$.
-\item The $a^n b^n$ \emph{process} can be generated by choosing a random
-	integer $n\geq 1$ (we suppose via a Poisson process) and writing $n$
-	$\mathtt{a}$'s followed by an equal number of $\mathtt{b}$'s, and then
-	repeating this procedure indefinitely. This results in sequences where any
-	contiguous block of $\mathtt{a}$s is followed by a block of $\mathtt{b}$s
-	of equal size. The $\mathtt{a}^n \mathtt{b}^n$ process cannot be generated
-	by any finite hidden Markov chain, though it is a simple example of a
-	probabilistic context-free language \cite{Hopc06a}. A typical example might
-	look like $\mathtt{abaaabbbabaabb}$.
+	can be generated by a two-state hidden Markov chain \cite{Crut01a}. A
+	typical example might look like $01100111101100011$.
+\item The $\mathtt{a}^n \mathtt{b}^n$ \emph{process} can be generated by
+	choosing a random integer $n\geq 1$ (we suppose via a Poisson process) and
+	writing $n$ $\mathtt{a}$s followed by an equal number of $\mathtt{b}$s,
+	and then repeating this procedure indefinitely. This results in sequences
+	where any contiguous block of $\mathtt{a}$s is followed by a block of
+	$\mathtt{b}$s of equal size. The $\mathtt{a}^n \mathtt{b}^n$ process cannot
+	be generated by any finite hidden Markov chain, though it is a simple
+	example of a probabilistic context-free language \cite{Hopc06a}. A typical
+	example might look like $\mathtt{abaaabbbabaabb}$.
 \item The $x+f(x)$ \emph{process} is a probabilistic context-free language
 	modeling the syntactic structure of simple mathematical expressions. It has
 	terminal symbols $\{\mathtt{(}\ ,\ \mathtt{)}\ ,\ \mathtt{;}\ ,\
@@ -281,13 +267,13 @@ We refer back frequently to the following example processes:
     C &\mapsto \mathtt{f(}B\mathtt{)}\ |\ \mathtt{x}
   ~.
 \end{align*}
-A typical example might
-	look like $\mathtt{x+x;f(x+f(x));f(f(x));}$.
-\item The $a^n b^n c^n$ \emph{process} is a probabilistic indexed language
-	\cite{Hopc06a} that is analogous to $\mathtt{a}^n \mathtt{b}^n$ except
-	after writing the blocks of $\mathtt{a}$'s and $\mathtt{b}$'s, we also
-	write a block of $\mathtt{c}$'s of length $n$. A typical example might
-	look like $\mathtt{abcaaabbbcccabcaabbcc}$.
+	A typical example might look like $\mathtt{x+x;f(x+f(x));f(f(x));}$.
+\item The $\mathtt{a}^n \mathtt{b}^n \mathtt{c}^n$ \emph{process} is a
+	probabilistic indexed language \cite{Hopc06a} that is analogous to
+	$\mathtt{a}^n \mathtt{b}^n$ except after writing the blocks of
+	$\mathtt{a}$'s and $\mathtt{b}$'s, we also write a block of $\mathtt{c}$'s
+	of length $n$. A typical example might look like
+	$\mathtt{abcaaabbbcccabcaabbcc}$.
 \item The \emph{Morse-Thue process} is generated by sampling from the time
 	series of the logistic map at critical ``onset of chaos'' parameter
 	$r_c \approx 3.56995$:
@@ -300,8 +286,8 @@ A typical example might
 	and executing the replacements $0 \mapsto 11$ and $1 \mapsto 01$
 	consecutively. The resulting process is an indexed-context free language
 	\cite{Crut92c}. A typical example might look like
-	$11011101010111011101110101011101$ (this is the fifth generation of the
-	replacement rule starting from $0$).
+	$11011101010111011101110101011101$---the fifth generation of the
+	replacement rule starting from $0$.
 \end{enumerate}
 
 \begin{figure*}[ht]
@@ -325,6 +311,8 @@ A typical example might
 \end{figure*}
 
 \section{Cantor-embedding sequences}
+
+STOPPED
 
 The geometry of sequences is inherently self-similar. Given an infinite sequence
 $\overrightarrow{x} = (x_1,x_2,\dots)$, we can split it into its leading word
@@ -419,10 +407,11 @@ as to not outweigh the computational benefits of working in one dimension.
         \Wasserstein(\Cantors_i,\Cantors_j)$\;
         $\Wass_{j i} \leftarrow \Wass_{i j}$\; } } 
   \KwResult{$\UnqPasts$,$\Cantors$,$\Wass$}
-  \caption{Steps for converting a sequence of categorical time-series data
-        into a labeled collection of empirical distributions of Cantor-embedded futures,
-        and a matrix of Wasserstein distances from said distributions.}
-  \label{alg:cantorwass}
+\caption{Convert a sequence of categorical time-series data into a labeled
+	collection of empirical distributions of Cantor-embedded futures and a
+	matrix of Wasserstein distances between said distributions.
+	}
+\label{alg:cantorwass}
 \end{algorithm}
 
 \section{Wasserstein distance on predictive states}
