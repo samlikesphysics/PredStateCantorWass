@@ -292,20 +292,20 @@ computational complexity:
 
 \begin{figure*}[ht]
 \centering
-\includegraphics[width=0.4\linewidth]{../plots/even_CANTOR.png}
-\includegraphics[width=0.4\linewidth]{../plots/anbn_CANTOR.png}
-\includegraphics[width=0.4\linewidth]{../plots/anbncn_CANTOR.png}
-\includegraphics[width=0.4\linewidth]{../plots/x+f(x)_CANTOR.png}
+\includegraphics[width=0.46\linewidth]{../plots/even_CANTOR.png}
+\includegraphics[width=0.45\linewidth]{../plots/anbn_CANTOR.png}
+\includegraphics[width=0.45\linewidth]{../plots/anbncn_CANTOR.png}
+\includegraphics[width=0.45\linewidth]{../plots/x+f(x)_CANTOR.png}
 \caption{Cantor plots for the even, $\mathtt{a}^n\mathtt{b}^n$,
 	$\mathtt{a}^n\mathtt{b}^n\mathtt{c}^n$, and $\mathtt{x+f(x)}$ processes.
 	Each point $(x,y)$ corresponds to a pair of sequences corresponding to the
-	past and future, respectively. The symbol on the $x$ ($y$) axis indicates
-	that all points above (to the right of) that symbol have a past (future)
-	whose most recent observation is that symbol. Though not marked, further
-	proportional subdivisions of each segment of the axes indicate the value of
-	the second, third, \emph{etc.} symbols. For instance, one can read from the
-	$\mathtt{x+f(x)}$ fractal that any past ending in $\mathtt{f}$ must be
-	paired with a future beginning in $\mathtt{(f}$ or $\mathtt{(x}$.
+	past $x$ and future $y$, respectively. The symbol on the $x$ ($y$) axis
+	indicates that all points above (to the right of) that symbol have a past
+	(future) whose most recent observation is that symbol. Though not marked,
+	further proportional subdivisions of each segment of the axes indicate the
+	value of the second, third, and so on symbols. For instance, one can read
+	from the $\mathtt{x+f(x)}$ fractal that any past ending in $\mathtt{f}$
+	must be paired with a future beginning in $\mathtt{(f}$ or $\mathtt{(x}$.
 	}
 \label{fig:cantor}
 \end{figure*}
@@ -414,8 +414,6 @@ as to not outweigh the computational benefits of working in one dimension.
 
 \section{Wasserstein distance on predictive states}
 
-STOPPED
-
 Figure \ref{fig:cantor}'s Cantor fractals represent probability distributions:
 We interpret a vertical slice of the fractal, located at horizontal position
 $C(\overleftarrow{x})$, as visualizing the predictive state
@@ -450,7 +448,7 @@ Wasserstein distance between $\mu$ and $\nu$ is given by:
 where $\Gamma(\mu,\nu)$ is the set of all measures on $\mathcal{M} \times
 \mathcal{M}$ whose left and right marginals are $\mu$ and $\nu$, respectively.
 It is the minimal cost to ``shift'' the probability mass from one distribution
-to match shape of the other. 
+to match the other's shape. 
 
 $W(\mu,\nu)$ is the solution to a constrained linear optimization. As a
 function of distributions, $W(\mu,\nu)$ is continuous with respect to
@@ -489,10 +487,10 @@ The next two sections examine the results of this approach.
 
 \begin{figure*}[ht]
 \centering
-\includegraphics[width=0.45\linewidth]{../plots/even_HCLUST.png}
-\includegraphics[width=0.45\linewidth]{../plots/anbn_HCLUST.png}
-\includegraphics[width=0.45\linewidth]{../plots/anbncn_HCLUST.png}
-\includegraphics[width=0.45\linewidth]{../plots/x+f(x)_HCLUST.png}
+\includegraphics[width=0.49\linewidth]{../plots/even_HCLUST.png}
+\includegraphics[width=0.49\linewidth]{../plots/anbn_HCLUST.png}
+\includegraphics[width=0.49\linewidth]{../plots/anbncn_HCLUST.png}
+\includegraphics[width=0.49\linewidth]{../plots/x+f(x)_HCLUST.png}
 \caption{(Upper left to lower right) Clustered Cantor diagrams of the even,
 	$\mathtt{a}^n\mathtt{b}^n$, $\mathtt{a}^n\mathtt{b}^n\mathtt{c}^n$, and
 	$\mathtt{x+f(x)}$ processes. Zoom for detail. For each, the vertical axis
@@ -518,7 +516,7 @@ predictions was computed and used to hierarchically cluster the pasts with
 others that produced similar predictions, using the Ward method \cite{Mull11a}.
 
 The resulting clustered Cantor plots offer a highly interpretable visualization
-of the relationship between pasts and futures, and of the predictive states'
+of the relationship between pasts and futures and of the predictive states'
 geometry. Each plot, in a certain sense, sorts the columns in the Cantor
 fractals of Fig. \ref{fig:cantor} with the white space between columns removed.
 For instance, the even process's clustered Cantor plot clearly contains the two
@@ -542,8 +540,8 @@ chosen sample size.)
 
 Similar discernment is seen for the $\mathtt{a}^n \mathtt{b}^n \mathtt{c}^n$
 and $\mathtt{x+f(x)}$ processes as well. We draw attention to the manner in
-which the presence of a semicolon in pasts from $\mathtt{x+f(x)}$ affects the
-comparison of predictions.
+which the presence of a semicolon in pasts from the $\mathtt{x+f(x)}$ process
+affects the comparison of predictions.
 
 By analyzing clustered Cantor plots, one gains insight into the properties of
 pasts that make them similar in terms of future predictions, even if they are
@@ -553,8 +551,8 @@ forecasts associated with each cluster of predictions.
 
 \begin{figure*}[ht]
 \centering
-\includegraphics[width=0.45\linewidth]{../plots/even_MDS.pdf}
-\includegraphics[width=0.45\linewidth]{../plots/anbn_MDS.pdf}
+\includegraphics[width=0.49\linewidth]{../plots/even_MDS.pdf}
+\includegraphics[width=0.48\linewidth]{../plots/anbn_MDS.pdf}
 \caption{Scatterplots of the first two MDS coordinates of the reconstructed
 	predictive states: (Left) Even process. (Right) $\mathtt{a}^n\mathtt{b}^n$
 	process. Clusters colored according to the scheme determined by the
@@ -584,8 +582,10 @@ the need for prior clustering.
 
 The even process, as in all other cases seen thus far, has two dominant
 prediction clusters. These correspond to the predictive states that result
-from seeing an even-sized block of $1$s (or, equivalently, no $1$s), and that
-result from seeing an odd-sized block of $1$s.
+from seeing an even-sized block of $1$s (or, equivalently, no $1$s) and that
+result from seeing an odd-sized block of $1$s. The lone cluster in the middle
+corrresponds to a transient state induced by seeing all $1$s and then a $0$.
+The latter then synchronizes to right cluster.
 
 The $\mathtt{a}^n\mathtt{b}^n$ plot is much more sophisticated. Intriguingly,
 its geometry not only clearly distinguishes predictively distinct states, but
@@ -616,7 +616,7 @@ equality between $\mathtt{a}$s and $\mathtt{b}$s.
 The geometric approach is particularly insightful when computing the
 Wasserstein matrix between predictions estimated from Morse-Thue process data.
 Recall that the Morse-Thue process is a coarse-graining of the iterated
-logistic map $y_{t+1} = ry_t(1-y_t)$ at the critical chaos parameter $r_c
+logistic map $y_{t+1} = ry_t(1-y_t), ~y_0 = 0,$ at the critical chaos parameter $r_c
 \approx 3.56995$. The resulting stream of $0$s and $1$s is a well-known
 instance of high complexity at the ``order-disorder border''. Specifically,
 setting parameter $r$ on either side of $r_c$ results in sequences that
@@ -657,6 +657,8 @@ way, the combination of the two approaches enables the straightforward recovery
 of the underlying dynamical system's (logistic map's) geometry.
 
 \section{Concluding remarks}
+
+STOPPED
 
 We presented a general approach for predictive state analysis---Cantor fractal
 embedding sequences and Wasserstein distance comparison of predictions. We
